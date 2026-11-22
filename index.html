@@ -24,7 +24,20 @@ a{color:inherit;text-decoration:none}
 .left:after,.forecast:after{content:"";position:absolute;bottom:-19px;left:-14%;height:58px;width:135%;border-radius:50% 50% 0 0;background:linear-gradient(160deg,rgba(160,161,165,.16),rgba(198,199,202,.07));pointer-events:none}
 .brand{font-size:14px;text-align:center;letter-spacing:2.2px;white-space:nowrap;color:#43464b}
 .date{font-size:23px;font-weight:500;text-align:center;margin:8px 0 5px;white-space:nowrap}
-.clock{font-family:Arial,sans-serif;text-align:center;font-size:66px;font-weight:600;letter-spacing:-3px;line-height:1.06;font-variant-numeric:tabular-nums;white-space:nowrap}
+/* Clock styles: 4 tap-to-switch presets, all within the original 82px allocation. */
+.clock-switch{height:82px;width:100%;position:relative;cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;outline-offset:-2px}
+.clock-option{width:100%;height:82px;display:none;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-family:Arial,sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap}
+.mode-a .clock-a,.mode-b .clock-b,.mode-c .clock-c,.mode-d .clock-d{display:-webkit-flex;display:flex}
+.clock-a{font-size:66px;font-weight:600;letter-spacing:-3px;line-height:1}
+.clock-b .clock-b-hm{font-size:55px;letter-spacing:-2.8px;font-weight:600;line-height:1}
+.clock-b .clock-b-sec{font-size:25px;letter-spacing:-1px;color:#73757a;font-weight:500;line-height:1;align-self:center;margin:17px 0 0 0}
+.analog-face{display:block;width:79px;height:79px;overflow:visible}
+.clock-d .analog-face{width:69px;height:69px;margin-right:9px}
+.clock-d .clock-d-digital{font-size:35px;font-weight:600;letter-spacing:-1.7px}
+.clock-c,.clock-d{padding-bottom:2px}
+.clock-cycle-mark{position:absolute;right:1px;bottom:2px;color:#929398;font-size:11px;line-height:12px;pointer-events:none}
+.clock-switch:active{opacity:.83}
+
 .line{height:1px;background:#b9b9bc;margin:5px 1px 5px}
 .now{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;gap:4px;height:82px;white-space:nowrap}
 .now-icon svg{width:76px;height:76px;display:block}.now-icon{margin-right:4px}
@@ -107,7 +120,13 @@ body.night-preview #night-close{display:block}
     <section class="card left" aria-label="現在の天気">
       <div class="brand">ARAMAKI WEATHER</div>
       <div class="date" id="date">--月--日（-）</div>
-      <div class="clock" id="clock">--:--</div>
+      <div id="clock-switch" class="clock-switch mode-a" role="button" tabindex="0" aria-label="時計をタップして切り替えます。現在はデジタル（時・分）" title="タップで時計切り替え">
+        <div class="clock-option clock-a" id="clock-a-time">--:--</div>
+        <div class="clock-option clock-b"><span class="clock-b-hm" id="clock-b-hm">--:--</span><span class="clock-b-sec" id="clock-b-sec">:--</span></div>
+        <div class="clock-option clock-c"><svg class="analog-face" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="47" fill="none" stroke="#414347" stroke-width="1.5"/><line x1="50" y1="9" x2="50" y2="18" transform="rotate(0 50 50)" stroke="#5d5f62" stroke-width="2.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(30 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(60 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="18" transform="rotate(90 50 50)" stroke="#5d5f62" stroke-width="2.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(120 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(150 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="18" transform="rotate(180 50 50)" stroke="#5d5f62" stroke-width="2.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(210 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(240 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="18" transform="rotate(270 50 50)" stroke="#5d5f62" stroke-width="2.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(300 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(330 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line id="hour-c" x1="50" y1="53" x2="50" y2="28" stroke="#1e2022" stroke-linecap="round" stroke-width="5"/><line id="minute-c" x1="50" y1="55" x2="50" y2="17" stroke="#1e2022" stroke-linecap="round" stroke-width="3.2"/><line id="second-c" x1="50" y1="59" x2="50" y2="15" stroke="#92949a" stroke-linecap="round" stroke-width="1.5"/><circle cx="50" cy="50" r="3.5" fill="#1e2022"/></svg></div>
+        <div class="clock-option clock-d"><svg class="analog-face" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="47" fill="none" stroke="#414347" stroke-width="1.5"/><line x1="50" y1="9" x2="50" y2="18" transform="rotate(0 50 50)" stroke="#5d5f62" stroke-width="2.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(30 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(60 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="18" transform="rotate(90 50 50)" stroke="#5d5f62" stroke-width="2.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(120 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(150 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="18" transform="rotate(180 50 50)" stroke="#5d5f62" stroke-width="2.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(210 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(240 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="18" transform="rotate(270 50 50)" stroke="#5d5f62" stroke-width="2.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(300 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(330 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line id="hour-d" x1="50" y1="53" x2="50" y2="28" stroke="#1e2022" stroke-linecap="round" stroke-width="5"/><line id="minute-d" x1="50" y1="55" x2="50" y2="17" stroke="#1e2022" stroke-linecap="round" stroke-width="3.2"/><line id="second-d" x1="50" y1="59" x2="50" y2="15" stroke="#92949a" stroke-linecap="round" stroke-width="1.5"/><circle cx="50" cy="50" r="3.5" fill="#1e2022"/></svg><span class="clock-d-digital" id="clock-d-hm">--:--</span></div>
+        <span class="clock-cycle-mark" aria-hidden="true">↻</span>
+      </div>
       <div class="line"></div>
       <div class="now"><span class="now-icon" id="weather-icon"></span><span class="now-temp"><span id="current-temp">--</span><small>°C</small></span></div>
       <div class="now-condition" id="weather-label">天気取得中</div>
@@ -218,8 +237,37 @@ function updateNight(){
  var b=black(),night=isNight();document.body.className=b?'night':(night?'night-preview':'');
  var meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.setAttribute('content',b?'#000':'#eeeeef');return b;
 }
+var CLOCK_MODES=['a','b','c','d'],clockIndex=0;
+var CLOCK_LABELS=['デジタル（時・分）','デジタル（秒付き）','アナログ','アナログ＋デジタル'];
+function setClockMode(i){
+ clockIndex=((i%4)+4)%4;
+ id('clock-switch').className='clock-switch mode-'+CLOCK_MODES[clockIndex];
+ id('clock-switch').setAttribute('aria-label','時計表示：'+CLOCK_LABELS[clockIndex]+'。タップすると次の表示へ切り替えます');
+ try{window.localStorage.setItem('fire7_clock_mode',String(clockIndex))}catch(e){}
+ refreshClock(jst());
+}
+function refreshClock(d){
+ var h=d.getUTCHours(),m=d.getUTCMinutes(),sec=d.getUTCSeconds(),hm=hhmm(d);
+ setText('clock-a-time',hm);setText('clock-b-hm',hm);setText('clock-b-sec',':'+pad(sec));setText('clock-d-hm',hm);
+ // Analog hands are SVG transforms; no animation library or canvas required.
+ var ah=(h%12)*30+m*.5+sec/120,am=m*6+sec*.1,as=sec*6;
+ var pairs=[['hour',ah],['minute',am],['second',as]];
+ for(var i=0;i<pairs.length;i++){
+  var c=id(pairs[i][0]+'-c'),sm=id(pairs[i][0]+'-d');
+  if(c)c.setAttribute('transform','rotate('+pairs[i][1]+' 50 50)');
+  if(sm)sm.setAttribute('transform','rotate('+pairs[i][1]+' 50 50)');
+ }
+}
+function initClockMode(){
+ var old=0;
+ try{var v=window.localStorage.getItem('fire7_clock_mode');if(/^[0-3]$/.test(v||''))old=parseInt(v,10)}catch(e){}
+ setClockMode(old);
+ var el=id('clock-switch');
+ el.onclick=function(){setClockMode(clockIndex+1)};
+ el.onkeydown=function(e){e=e||window.event;if(e.keyCode===13||e.keyCode===32){if(e.preventDefault)e.preventDefault();setClockMode(clockIndex+1)}};
+}
 function tick(){
- var d=jst();setText('date',(d.getUTCMonth()+1)+'月'+d.getUTCDate()+'日（'+WEEK[d.getUTCDay()]+'）');setText('clock',hhmm(d));showGarbage();
+ var d=jst();setText('date',(d.getUTCMonth()+1)+'月'+d.getUTCDate()+'日（'+WEEK[d.getUTCDay()]+'）');refreshClock(d);showGarbage();
  var b=updateNight();
  if(weather&&weatherDate!==ymd(d)){weather=null;weatherUpdate()}
  if(previousBlack&&!b&&!isNight()){weatherUpdate();newsUpdate()}
@@ -312,7 +360,8 @@ function newsUpdate(){if(black())return;xhrJSON('news.json?t='+Math.floor(new Da
 function newsRotate(){if(!black()&&newsItems.length>3)renderNews()}
 id('night-blank').onclick=wakeNight;id('night-close').onclick=blackNow;
 id('night-blank').onkeydown=function(e){e=e||window.event;if(e.keyCode===13||e.keyCode===32){if(e.preventDefault)e.preventDefault();wakeNight()}};
-fit();tick();weatherUpdate();newsUpdate();
+initClockMode();fit();tick();weatherUpdate();newsUpdate();
+setInterval(function(){refreshClock(jst())},1000);
 setInterval(tick,15000);setInterval(weatherUpdate,30*60*1000);setInterval(newsUpdate,30*60*1000);setInterval(newsRotate,25000);
 window.addEventListener('resize',fit,false);window.addEventListener('orientationchange',fit,false);
 if(document.addEventListener)document.addEventListener('visibilitychange',function(){if(!document.hidden){tick();weatherUpdate();newsUpdate();fit()}},false);
