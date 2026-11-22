@@ -1,267 +1,263 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="theme-color" content="#f8f8f6">
-  <title>荒牧の天気 | Fire 7</title>
-  <style>
-    /* Fire 7 (7th generation) friendly: no framework, external fonts, or build step */
-    html, body { margin:0; padding:0; min-height:100%; background:#f8f8f6; color:#151515; }
-    body { font-family: Arial, "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif; -webkit-text-size-adjust:100%; }
-    * { box-sizing:border-box; }
-    .dashboard { max-width:1200px; margin:0 auto; padding:19px 26px 12px; }
-    .top { border-bottom:1px solid #202020; padding-bottom:11px; display:-webkit-flex; display:flex; -webkit-justify-content:space-between; justify-content:space-between; -webkit-align-items:center; align-items:center; }
-    .brand { font-size:19px; letter-spacing:0.27em; font-weight:400; white-space:nowrap; }
-    .date { font-size:21px; letter-spacing:0.045em; white-space:nowrap; }
-    .hero { display:-webkit-flex; display:flex; -webkit-align-items:center; align-items:center; padding:13px 0 13px; min-height:200px; border-bottom:1px solid #202020; }
-    .clock-area { width:52%; padding:0 22px 0 4px; }
-    .clock { font-family:Arial, sans-serif; font-size:126px; font-weight:300; line-height:1; letter-spacing:-0.07em; white-space:nowrap; font-variant-numeric:tabular-nums; }
-    .clock-label { margin:9px 0 0 8px; color:#555; font-size:16px; }
-    .current { width:48%; min-height:170px; padding-left:30px; border-left:1px solid #333; }
-    .eyebrow { font-size:19px; letter-spacing:.08em; margin:0 0 4px; }
-    .temp-line { display:-webkit-flex; display:flex; -webkit-align-items:center; align-items:center; -webkit-justify-content:space-between; justify-content:space-between; min-height:113px; }
-    .temperature { font-family:Arial,sans-serif; font-size:112px; font-weight:300; letter-spacing:-.075em; line-height:1; white-space:nowrap; }
-    .temperature .unit { font-size:.43em; vertical-align:27px; margin-left:4px; letter-spacing:-.04em; }
-    .current-condition { width:122px; text-align:center; flex-shrink:0; -webkit-flex-shrink:0; }
-    .current-condition svg { width:83px; height:70px; display:block; margin:0 auto 4px; }
-    .condition-label { font-size:17px; white-space:nowrap; }
-    .current-detail { color:#5a5a5a; font-size:14px; }
-    .section { border-bottom:1px solid #222; display:-webkit-flex; display:flex; padding:16px 0; }
-    .section-heading { width:21%; -webkit-flex-shrink:0; flex-shrink:0; margin:0; font-size:20px; font-weight:500; letter-spacing:.02em; line-height:1.3; }
-    .forecast-content { width:79%; display:-webkit-flex; display:flex; }
-    .hour { width:25%; border-left:1px solid #bbb; text-align:center; padding:1px 9px; }
-    .hour:first-child { border-left:0; }
-    .hour-time { font-size:21px; letter-spacing:.02em; margin-bottom:12px; }
-    .hour-main { display:-webkit-flex; display:flex; -webkit-align-items:center; align-items:center; -webkit-justify-content:center; justify-content:center; gap:6px; }
-    .hour-main svg { width:53px; height:52px; margin-right:10px; }
-    .hour-temp { font-size:34px; font-weight:300; white-space:nowrap; }
-    .rain { color:#555; font-size:15px; margin-top:8px; }
-    .daily-section { padding:14px 0 10px; border-bottom:none; }
-    .day { width:20%; border-left:1px solid #bbb; display:-webkit-flex; display:flex; -webkit-flex-direction:column; flex-direction:column; -webkit-align-items:center; align-items:center; -webkit-justify-content:center; justify-content:center; text-align:center; padding:1px 5px; min-height:123px; }
-    .day:first-child { border-left:0; }
-    .day-name { font-size:19px; margin-bottom:4px; }
-    .day svg { width:42px; height:42px; display:block; margin:0 auto 5px; }
-    .day-temp { font-size:18px; white-space:nowrap; }
-    .day-rain { color:#555; font-size:13px; margin-top:5px; white-space:nowrap; }
-    .footer { color:#777; font-size:11px; display:-webkit-flex; display:flex; -webkit-justify-content:space-between; justify-content:space-between; padding-top:4px; gap:10px; }
-    .footer a { color:inherit; }
-    svg { overflow:visible; }
-    .night { background:#000 !important; color:#000 !important; }
-    .night .dashboard { visibility:hidden; }
-    .night-note { display:none; }
-    .night .night-note { display:block; position:absolute; left:0; top:0; width:100%; height:100%; background:#000; }
-    @media (max-width:850px) {
-      .dashboard { padding:16px 19px 10px; }
-      .brand { font-size:15px; letter-spacing:.2em; }
-      .date { font-size:17px; }
-      .hero { min-height:170px; padding:14px 0; }
-      .clock { font-size:93px; }
-      .current { min-height:135px; padding-left:18px; }
-      .eyebrow { font-size:16px; }
-      .temperature { font-size:86px; }
-      .temperature .unit { vertical-align:20px; }
-      .current-condition { width:95px; }
-      .current-condition svg { width:65px; height:57px; }
-      .condition-label { font-size:14px; }
-      .section-heading { font-size:17px; }
-      .hour-time { font-size:17px; }
-      .hour-main svg { width:39px; height:40px; margin-right:5px; }
-      .hour-temp { font-size:26px; }
-      .day-name { font-size:17px; }
-      .day-temp { font-size:15px; }
-      .day-rain { font-size:12px; }
-      .day svg { width:34px; height:34px; }
-    }
-    @media (max-width:610px) {
-      .dashboard { padding:15px; }
-      .top { display:block; }
-      .brand { font-size:15px; }
-      .date { font-size:15px; margin-top:5px; }
-      .hero { display:block; }
-      .clock-area, .current { width:100%; padding:0; border:0; }
-      .clock { font-size:82px; }
-      .current { border-top:1px solid #bbb; margin-top:14px; padding-top:12px; }
-      .section { display:block; }
-      .section-heading { width:100%; margin-bottom:12px; }
-      .forecast-content { width:100%; }
-      .hour { padding:0 3px; }
-      .hour-time { font-size:14px; }
-      .hour-main { display:block; }
-      .hour-main svg { display:block; margin:0 auto 4px; }
-      .hour-temp { font-size:22px; }
-      .rain { font-size:12px; }
-      .daily-section .forecast-content { -webkit-flex-wrap:wrap; flex-wrap:wrap; }
-      .day { width:33.333%; min-height:118px; margin-bottom:11px; }
-      .day:nth-child(4) { border-left:0; }
-      .day-name { margin:0 0 4px; }
-      .day svg { display:block; margin:0 auto 4px; }
-      .day-temp { font-size:14px; }
-      .day-rain { font-size:12px; }
-      .footer { display:block; line-height:1.8; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#f8f8f6">
+<title>荒牧 天気と生活情報 | Fire 7</title>
+<style>
+/* Fire OS 5 / old Silk: ES5 + classic flexbox, no external libraries or fonts */
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#ededeb;color:#181818;-webkit-text-size-adjust:100%}
+body{font-family:Arial,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif}
+#stage{position:absolute;left:0;top:0;width:1024px;height:520px;overflow:hidden;background:#f8f8f6;padding:9px 23px 5px}
+#page{width:978px;height:506px;overflow:hidden}
+.header{height:51px;border-bottom:1px solid #292929;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:space-between;justify-content:space-between}
+.brand{font-size:20px;letter-spacing:4px;white-space:nowrap;font-weight:400}
+.date{font-size:30px;white-space:nowrap;font-weight:500}
+.hero{height:124px;border-bottom:1px solid #444;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+.clockbox{width:50%;height:96px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;padding-left:8px}
+.clock{font-family:Arial,sans-serif;font-size:95px;line-height:1;letter-spacing:-5px;font-weight:300;font-variant-numeric:tabular-nums;white-space:nowrap}
+.current{width:50%;height:96px;border-left:1px solid #aaa;padding-left:23px;display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center}
+.tempbox{min-width:265px}.minor{font-size:16px;color:#5d5d5d;white-space:nowrap}.temp{font-family:Arial,sans-serif;font-size:65px;line-height:1.08;font-weight:300;white-space:nowrap}.temp small{font-size:31px;vertical-align:8px;margin-left:3px}.feels{font-size:15px;color:#555;white-space:nowrap}
+.condition{width:120px;text-align:center;font-size:16px;white-space:nowrap}.condition svg{width:61px;height:61px;display:block;margin:0 auto -1px}
+.section{display:-webkit-flex;display:flex;border-bottom:1px solid #333;-webkit-align-items:center;align-items:center}
+.hours{height:92px}.days{height:110px}.heading{width:162px;flex-shrink:0;-webkit-flex-shrink:0;font-size:19px;font-weight:400;white-space:nowrap;padding-left:6px}
+.slots{width:816px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+.hour{width:25%;height:73px;border-left:1px solid #c4c4c4;text-align:center}.hour:first-child{border-left:0}
+.hour-time{font-size:16px;line-height:18px}.hour-mid{height:37px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center}.hour-mid svg{width:35px;height:35px;margin-right:10px}.hour-num{font-size:27px}.prob{font-size:14px;color:#575757;line-height:17px;white-space:nowrap}
+.day{width:20%;height:97px;border-left:1px solid #c4c4c4;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-justify-content:center;justify-content:center;-webkit-align-items:center;align-items:center;text-align:center}
+.day:first-child{border-left:0}.day-title{font-size:17px;line-height:20px;white-space:nowrap}.day svg{width:31px;height:32px;display:block;margin:1px auto}.day-temps{font-size:18px;line-height:21px;white-space:nowrap}.day-prob{font-size:14px;color:#5b5b5b;line-height:20px;white-space:nowrap}
+.tiles{height:78px;border-bottom:1px solid #333;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+.tile{height:58px;min-width:0;border:1px solid #c0c0c0;border-radius:4px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:space-between;justify-content:space-between;padding:7px 12px;margin-right:10px;text-decoration:none;color:inherit}
+.tile:last-child{margin-right:0}.tile-one{width:30%}.tile-two{width:32%}.tile-three{width:38%}
+.tile-label{font-size:14px;color:#5c5c5c;line-height:1.35;white-space:nowrap}.tile-value{font-size:19px;font-weight:600;text-align:right;max-width:68%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tile-three .tile-value{font-size:16px}
+.news{height:36px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;text-decoration:none;color:inherit}
+.news-label{font-size:17px;font-weight:600;white-space:nowrap;margin-right:15px}.news-text{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#4b4b4b;display:block;min-width:0;-webkit-flex:1;flex:1}
+.news-source{font-size:12px;margin-left:10px;color:#666;white-space:nowrap}
+.footer{height:15px;display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;color:#666;font-size:10px;padding-top:1px;white-space:nowrap}
+a{color:inherit}
+svg.weather-icon{overflow:visible}
+.night{background:#000!important}.night #stage{display:none}.night #night-blank{display:block}
+#night-blank{display:none;background:#000;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;cursor:pointer}
+#night-close{display:none;position:fixed;right:14px;bottom:12px;z-index:9999;background:#202020;color:#fff;border:1px solid #777;border-radius:5px;padding:8px 13px;font-size:13px;font-family:inherit;cursor:pointer}
+.night-preview #night-close{display:block}
+@media (max-width:600px) and (orientation:portrait){
+ html,body{height:auto;overflow:auto;background:#f8f8f6}
+ #stage{position:relative!important;left:auto!important;top:auto!important;transform:none!important;-webkit-transform:none!important;width:100%;height:auto;min-height:100vh;padding:14px 13px;overflow:visible}
+ #page{width:100%;height:auto;overflow:visible}
+ .header{height:52px}.brand{font-size:12px;letter-spacing:2px}.date{font-size:20px}
+ .hero{height:auto;display:block;padding:16px 2px}.clockbox{width:100%;height:85px;padding-left:0}.clock{font-size:82px}
+ .current{width:100%;height:122px;border-left:0;border-top:1px solid #bbb;padding:13px 0 0}.tempbox{min-width:0}.temp{font-size:70px}.condition{width:100px}
+ .section{display:block;padding:12px 0}.hours,.days{height:auto}.heading{width:100%;padding:0 0 10px;font-size:17px}.slots{width:100%}.hour{height:82px}.hour-mid svg{width:24px;height:27px;margin-right:4px}.hour-num{font-size:21px}.hour-time{font-size:13px}.prob{font-size:11px}
+ .day{height:100px}.day-title{font-size:13px}.day-temps{font-size:12px}.day-prob{font-size:10px}
+ .tiles{height:auto;display:block;padding:9px 0}.tile{width:100%;height:50px;margin:0 0 7px}.news{height:auto;min-height:50px;padding:5px 0}.news-label{font-size:13px;margin-right:8px}.news-text{font-size:13px}.news-source{display:none}.footer{height:auto;font-size:9px;white-space:normal;line-height:1.5}
+}
+</style>
 </head>
 <body>
-<div class="dashboard" id="dashboard">
-  <div class="top"><span class="brand">ARAMAKI / WEATHER</span><span class="date" id="date">--月--日</span></div>
+<div id="stage"><div id="page">
+  <div class="header"><div class="brand">ARAMAKI / WEATHER</div><div class="date" id="date">--月--日（-）</div></div>
   <div class="hero">
-    <div class="clock-area"><div class="clock" id="clock">--:--</div><div class="clock-label">現在時刻</div></div>
+    <div class="clockbox"><div class="clock" id="clock">--:--</div></div>
     <div class="current">
-      <div class="eyebrow">現在の気温</div>
-      <div class="temp-line">
-        <div class="temperature"><span id="current-temp">--</span><span class="unit">°C</span></div>
-        <div class="current-condition"><span id="current-icon"></span><div class="condition-label" id="current-weather">取得中</div></div>
-      </div>
-      <div class="current-detail" id="today-range">兵庫県伊丹市荒牧</div>
+      <div class="tempbox"><div class="minor">現在の気温</div><div class="temp"><span id="current-temp">--</span><small>°C</small></div><div class="feels" id="feels">体感 --° ・ 最高 --° / 最低 --°</div></div>
+      <div class="condition"><span id="weather-icon"></span><span id="weather-label">取得中</span></div>
     </div>
   </div>
-  <div class="section">
-    <h2 class="section-heading">時間別の天気</h2>
-    <div class="forecast-content" id="hours">
-      <div class="hour">取得中...</div>
-    </div>
+  <div class="section hours"><div class="heading">時間別の天気</div><div class="slots" id="hours"> <div class="hour">取得中...</div></div></div>
+  <div class="section days"><div class="heading">5日間の予報</div><div class="slots" id="days"><div class="day">取得中...</div></div></div>
+  <div class="tiles">
+    <div class="tile tile-one"><div class="tile-label">傘の目安<br>今後6時間</div><div class="tile-value" id="umbrella">判定中</div></div>
+    <a class="tile tile-two" id="garbage-link" href="https://www.city.itami.lg.jp/SOSIKI/SHIMIN/KANKYOC/h28cal/tikupdf/1453869112924.html" target="_blank" rel="noopener"><div class="tile-label">明日のゴミ<br>荒牧・A2地区</div><div class="tile-value" id="garbage">確認中</div></a>
+    <a class="tile tile-three" id="alert-link" href="https://www.jma.go.jp/bosai/warning/" target="_blank" rel="noopener"><div class="tile-label">気象警報<br>注意報</div><div class="tile-value" id="alert">公式情報を確認</div></a>
   </div>
-  <div class="section daily-section">
-    <h2 class="section-heading">5日間の予報</h2>
-    <div class="forecast-content" id="days"><div class="day">取得中...</div></div>
-  </div>
-  <div class="footer">
-    <span id="status">天気データを取得しています</span>
-    <span>出典：<a href="https://open-meteo.com/" target="_blank">Open-Meteo.com</a>（気象モデルによる予報）／日別降水確率はその日の最大値</span>
-  </div>
-</div>
-<div class="night-note" aria-hidden="true"></div>
+  <a class="news" id="news-link" href="https://news.web.nhk/" target="_blank" rel="noopener"><span class="news-label">主要ニュース</span><span class="news-text" id="news-title">ニュースは取得設定後に表示します（タップでNHKニュースへ）</span><span class="news-source" id="news-source">NHKニュース</span></a>
+  <div class="footer"><span id="status">天気情報を取得中...</span><span>天気：Open-Meteo（モデル推定） / ゴミ：伊丹市公式 / 警報：気象庁を確認</span></div>
+</div></div>
+<div id="night-blank" role="button" tabindex="0" aria-label="タップで天気を2分間表示"></div>
+<button type="button" id="night-close">黒画面に戻す</button>
 <script>
-(function () {
-  'use strict';
-  // Aramaki neighborhood approximate central coordinates (not a device GPS reading).
-  var LATITUDE = 34.8107;
-  var LONGITUDE = 135.3825;
-  var REFRESH_MS = 30 * 60 * 1000;
-  var apiUrl = 'https://api.open-meteo.com/v1/forecast?latitude=' + LATITUDE +
-    '&longitude=' + LONGITUDE +
-    '&current=temperature_2m,weather_code,is_day' +
-    '&hourly=temperature_2m,precipitation_probability,weather_code,is_day' +
-    '&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_probability_max' +
-    '&forecast_days=6&timezone=Asia%2FTokyo';
-  var lastData = null;
-  var weekdays = ['日', '月', '火', '水', '木', '金', '土'];
-  function el(id) { return document.getElementById(id); }
-  function pad(n) { return n < 10 ? '0' + n : '' + n; }
-  function nowJst() {
-    // Explicit JST so the display works even if device time zone was changed.
-    var d = new Date();
-    return new Date(d.getTime() + (9 * 60 + d.getTimezoneOffset()) * 60000);
+(function(){
+'use strict';
+var LAT=34.8107, LON=135.3825, WEEK=['日','月','火','水','木','金','土'];
+var RANGE_START='2026-11-22', RANGE_END='2027-03-31';
+var WEATHER_URL='https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON+
+ '&current=temperature_2m,apparent_temperature,weather_code,is_day'+
+ '&hourly=temperature_2m,precipitation_probability,precipitation,weather_code,is_day'+
+ '&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_probability_max'+
+ '&forecast_days=6&timezone=Asia%2FTokyo';
+var lastWeather=null, lastWeatherDate='', latestUpdate=0, items=[], itemPos=0;
+var nightAwakeUntil=0, previousBlack=false, WAKE_MS=2*60*1000;
+function id(s){return document.getElementById(s)}
+function pad(n){return n<10?'0'+n:String(n)}
+function jst(){return new Date(new Date().getTime()+9*3600000)}
+function fmtDate(d){return d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate())}
+function fmtHour(d){return fmtDate(d)+'T'+pad(d.getUTCHours())}
+function datePlus(d,n){return new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate()+n))}
+function put(el,s){id(el).textContent=String(s)}
+function number(n){return typeof n==='number' && isFinite(n)?String(Math.round(n)):'--'}
+function weatherLabel(c){
+ if(c===0)return '快晴'; if(c===1||c===2)return '晴れ';if(c===3)return 'くもり';
+ if(c===45||c===48)return '霧';if(c>=51&&c<=67||c>=80&&c<=82)return '雨';
+ if(c>=71&&c<=77||c>=85&&c<=86)return '雪';if(c>=95)return '雷雨';return '天気不明';
+}
+function weatherIcon(c,isDay){
+ var a='<svg class="weather-icon" viewBox="0 0 64 64" aria-hidden="true">',s='fill="none" stroke="#181818" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"';
+ var cloud='<path '+s+' d="M15 48h33a11 11 0 0 0-1-22 17 17 0 0 0-31 4A10 10 0 0 0 15 48Z"/>';
+ var sun='<circle '+s+' cx="32" cy="32" r="11"/><path '+s+' d="M32 5v10M32 49v10M5 32h10M49 32h10M13 13l7 7M44 44l7 7M51 13l-7 7M20 44l-7 7"/>';
+ var moon='<path '+s+' d="M42 9A22 22 0 1 0 55 44 22 22 0 0 1 42 9Z"/>';
+ if(c===0)return a+(isDay?sun:moon)+'</svg>';
+ if(c===1||c===2)return a+'<circle '+s+' cx="20" cy="18" r="10"/>'+cloud+'</svg>';
+ if(c>=51&&c<=67||c>=80&&c<=82||c>=95)return a+cloud+'<path '+s+' d="M20 53l-3 7M34 53l-3 7M48 53l-3 7"/></svg>';
+ if(c>=71&&c<=77||c>=85&&c<=86)return a+cloud+'<path '+s+' d="M19 56h8m-4-4v8M35 56h8m-4-4v8"/></svg>';
+ return a+cloud+'</svg>';
+}
+function scale(){
+ if(window.innerWidth<=600 && window.innerHeight>window.innerWidth){id('stage').style.cssText='';return;}
+ var w=window.innerWidth||document.documentElement.clientWidth;
+ var h=window.innerHeight||document.documentElement.clientHeight;
+ // Keep the complete 1024 x 520 canvas visible even with Silk toolbar open.
+ var sc=Math.min((w-4)/1024,(h-4)/520);
+ if(sc<=0)sc=1;
+ var x=Math.max(0,Math.floor((w-1024*sc)/2));
+ var y=Math.max(0,Math.floor((h-520*sc)/2));
+ var t='translate('+x+'px,'+y+'px) scale('+sc+')';
+ id('stage').style.webkitTransform=t;id('stage').style.transform=t;
+ id('stage').style.webkitTransformOrigin='0 0';id('stage').style.transformOrigin='0 0';
+}
+function garbageTomorrow(){
+ var day=datePlus(jst(),1), key=fmtDate(day),wd=day.getUTCDay(),r='';
+ if(key<RANGE_START||key>RANGE_END){r='日程要確認';}
+ else if(key==='2027-01-01'||key==='2026-12-31'||key==='2027-01-02'||key==='2027-01-03')r='収集なし';
+ else if(wd===1)r='資源物';
+ else if(wd===2)r='燃やすごみ';
+ else if(wd===3)r='不燃・プラ';
+ else if(wd===5)r='可燃・びん／ペット';
+ else r='収集なし';
+ put('garbage',r);
+ // Calendar is validated for Nov 2026–Mar 2027. Other dates require city verification.
+}
+function isNight(d){return d.getUTCHours()<5;}
+function isBlack(){return isNight(jst()) && new Date().getTime()>=nightAwakeUntil;}
+function setNightDisplay(){
+ var night=isNight(jst());
+ var black=night && new Date().getTime()>=nightAwakeUntil;
+ document.body.className=black?'night':(night?'night-preview':'');
+ var theme=document.querySelector('meta[name="theme-color"]');
+ if(theme)theme.setAttribute('content',black?'#000000':'#f8f8f6');
+ return black;
+}
+function tick(){
+ var d=jst();put('clock',pad(d.getUTCHours())+':'+pad(d.getUTCMinutes()));
+ put('date',(d.getUTCMonth()+1)+'月'+d.getUTCDate()+'日（'+WEEK[d.getUTCDay()]+'）');
+ var black=setNightDisplay();
+ garbageTomorrow();
+ if(lastWeather&&lastWeatherDate!==fmtDate(d))render(lastWeather);
+ // At 05:00 immediately refresh data instead of showing an old forecast.
+ if(previousBlack&&!black&&!isNight(d)){weatherUpdate();otherUpdate();}
+ previousBlack=black;
+}
+function wakeNight(){
+ if(!isNight(jst()))return;
+ nightAwakeUntil=new Date().getTime()+WAKE_MS;
+ tick();scale();weatherUpdate();otherUpdate();
+}
+function blackNow(){nightAwakeUntil=0;tick();}
+
+function render(data){
+ if(!data||!data.current||!data.hourly||!data.daily||!data.daily.time)throw new Error('API data missing');
+ lastWeather=data;lastWeatherDate=fmtDate(jst());
+ var cur=data.current,h=data.hourly,d=data.daily, now=jst();
+ put('current-temp',number(cur.temperature_2m));put('weather-label',weatherLabel(cur.weather_code));
+ id('weather-icon').innerHTML=weatherIcon(cur.weather_code,cur.is_day===1);
+ put('feels','体感 '+number(cur.apparent_temperature)+'° ・ 最高 '+number(d.temperature_2m_max[0])+'° / 最低 '+number(d.temperature_2m_min[0])+'°');
+ var nowKey=fmtHour(now),i,index=-1;
+ // Pick first upcoming 3-hourly forecast. At midnight the next day remains valid.
+ var target=datePlus(now,0);
+ target.setUTCHours(Math.ceil((now.getUTCHours()+(now.getUTCMinutes()>0?0.0001:0))/3)*3,0,0,0);
+ if(target.getTime()<now.getTime())target=new Date(target.getTime()+3*3600000);
+ var wanted=fmtHour(target);
+ for(i=0;i<h.time.length;i++){if(h.time[i].substring(0,13)>=wanted){index=i;break;}}
+ var hours='';
+ if(index>=0){for(i=0;i<4;i++){
+  var p=index+3*i;if(p>=h.time.length)break;
+  var hour=h.time[p].substring(11,13)+':00';
+  hours+='<div class="hour"><div class="hour-time">'+hour+'</div><div class="hour-mid">'+weatherIcon(h.weather_code[p],h.is_day[p]===1)+'<span class="hour-num">'+number(h.temperature_2m[p])+'°</span></div><div class="prob">降水 '+number(h.precipitation_probability[p])+'%</div></div>';
+ }}
+ id('hours').innerHTML=hours||'<div class="hour">未取得</div>';
+ var days='';
+ for(i=1;i<=5;i++){
+  if(i>=d.time.length)break;
+  var parts=d.time[i].split('-'),dt=new Date(Date.UTC(Number(parts[0]),Number(parts[1])-1,Number(parts[2])));
+  days+='<div class="day"><div class="day-title">'+WEEK[dt.getUTCDay()]+' '+dt.getUTCDate()+'</div>'+weatherIcon(d.weather_code[i],true)+
+   '<div class="day-temps">'+number(d.temperature_2m_max[i])+'° / '+number(d.temperature_2m_min[i])+'°</div><div class="day-prob">降水 '+number(d.precipitation_probability_max[i])+'%</div></div>';
+ }
+ id('days').innerHTML=days||'<div class="day">未取得</div>';
+ var maxProb=-1, rain=0;
+ for(i=0;i<h.time.length;i++){
+  if(h.time[i]<fmtHour(now)||h.time[i]>fmtHour(new Date(now.getTime()+6*3600000)))continue;
+  if(typeof h.precipitation_probability[i]==='number')maxProb=Math.max(maxProb,h.precipitation_probability[i]);
+  if(typeof h.precipitation[i]==='number')rain+=h.precipitation[i];
+ }
+ var umbrella='判定不可';
+ if(maxProb>=50||rain>=0.5)umbrella='傘を持って';
+ else if(maxProb>=25||rain>0)umbrella='あると安心';
+ else if(maxProb>=0)umbrella='不要そう';
+ put('umbrella',umbrella);
+ latestUpdate=new Date().getTime();
+ put('status','天気：'+pad(now.getUTCHours())+':'+pad(now.getUTCMinutes())+'更新 ・ 30分ごと');
+}
+function request(url,done){
+ var xhr=new XMLHttpRequest();xhr.open('GET',url,true);xhr.timeout=16000;
+ xhr.onreadystatechange=function(){if(xhr.readyState===4){if(xhr.status>=200&&xhr.status<300){try{done(null,JSON.parse(xhr.responseText));}catch(e){done(e,null);}}else done(new Error('HTTP '+xhr.status),null);}};
+ xhr.onerror=function(){done(new Error('network'),null)};
+ xhr.ontimeout=function(){done(new Error('timeout'),null)};
+ try{xhr.send(null);}catch(e){done(e,null);}
+}
+function weatherUpdate(){
+ // Avoid network polling during the black-screen hours unless manually woken.
+ if(isBlack())return;
+ request(WEATHER_URL,function(err,data){
+  if(!err){try{render(data);return;}catch(e){err=e;}}
+  put('status',lastWeather?'天気更新失敗：前回取得値を表示':'天気を取得できません（Wi-Fi・日時を確認）');
+  if(!lastWeather){put('weather-label','未取得');put('umbrella','判定不可');}
+ });
+}
+function otherUpdate(){
+ if(isBlack())return;
+ // Optional: future automation may publish info.json in the same repository.
+ // No fictitious alert clearance or news headlines when the feed is absent.
+ request('info.json?t='+Math.floor(new Date().getTime()/1800000),function(err,data){
+  if(err||!data)return;
+  if(data.updated_at){var stamp=Date.parse(data.updated_at);if(!isFinite(stamp)||new Date().getTime()-stamp>2*3600000)return;}
+  if(data.alert&&typeof data.alert.text==='string'){
+    put('alert',data.alert.text.substring(0,24));
+    if(data.alert.url&&/^https:\/\//.test(data.alert.url))id('alert-link').href=data.alert.url;
   }
-  function updateClock() {
-    var d = nowJst();
-    el('clock').innerHTML = pad(d.getHours()) + ':' + pad(d.getMinutes());
-    el('date').innerHTML = (d.getMonth() + 1) + '月' + d.getDate() + '日（' + weekdays[d.getDay()] + '）';
-    // Nighttime black overlay is NOT physical display-off.
-    var night = d.getHours() >= 22 || d.getHours() < 6;
-    document.body.className = night ? 'night' : '';
+  if(data.news && data.news.length){
+   items=[];for(var i=0;i<data.news.length;i++){
+    var q=data.news[i];if(q&&typeof q.title==='string'&&typeof q.url==='string'&&/^https:\/\//.test(q.url))items.push(q);
+   }
+   itemPos=0;newsSlide();
   }
-  function label(code) {
-    if (code === 0) { return '快晴'; }
-    if (code <= 2) { return '晴れ時々くもり'; }
-    if (code === 3) { return 'くもり'; }
-    if (code === 45 || code === 48) { return '霧'; }
-    if (code >= 51 && code <= 67) { return '雨'; }
-    if (code >= 71 && code <= 77) { return '雪'; }
-    if (code >= 80 && code <= 82) { return 'にわか雨'; }
-    if (code >= 85 && code <= 86) { return 'にわか雪'; }
-    if (code >= 95) { return '雷雨'; }
-    return '天気不明';
-  }
-  function icon(code, day) {
-    var strokes = 'fill="none" stroke="#171717" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"';
-    var start = '<svg viewBox="0 0 64 64" role="img" aria-label="' + label(code) + '">';
-    var cloud = '<path ' + strokes + ' d="M16 48H47A12 12 0 0 0 47 24A17 17 0 0 0 15 29A10 10 0 0 0 16 48Z"/>';
-    var sun = '<circle ' + strokes + ' cx="32" cy="32" r="11"/><path ' + strokes + ' d="M32 5V13 M32 51V59 M5 32H13 M51 32H59 M13 13L19 19 M45 45L51 51 M51 13L45 19 M19 45L13 51"/>';
-    var moon = '<path ' + strokes + ' d="M42 9A23 23 0 1 0 55 44A23 23 0 0 1 42 9Z"/>';
-    var rain = '<path ' + strokes + ' d="M22 53L19 60 M34 53L31 60 M46 53L43 60"/>';
-    var snow = '<path ' + strokes + ' d="M20 56h8 M24 52v8 M35 56h8 M39 52v8"/>';
-    if (code === 0) { return start + (day ? sun : moon) + '</svg>'; }
-    if (code <= 2) { return start + '<circle ' + strokes + ' cx="22" cy="19" r="10"/>' + cloud + '</svg>'; }
-    if (code >= 51 && code <= 67 || code >= 80 && code <= 82 || code >= 95) { return start + cloud + rain + '</svg>'; }
-    if (code >= 71 && code <= 77 || code >= 85 && code <= 86) { return start + cloud + snow + '</svg>'; }
-    return start + cloud + '</svg>';
-  }
-  function niceNum(value) {
-    return typeof value === 'number' ? String(Math.round(value)) : '--';
-  }
-  function getHourForToday(iso) {
-    // API returns dates in Asia/Tokyo as YYYY-MM-DDTHH:mm; lexical comparison is safe.
-    return iso.substring(0, 13);
-  }
-  function render(data) {
-    if (!data || !data.current || !data.hourly || !data.daily) { throw new Error('incomplete data'); }
-    lastData = data;
-    var c = data.current;
-    el('current-temp').innerHTML = niceNum(c.temperature_2m);
-    el('current-weather').innerHTML = label(c.weather_code);
-    el('current-icon').innerHTML = icon(c.weather_code, c.is_day === 1);
-    if (data.daily.temperature_2m_max && data.daily.temperature_2m_max.length) {
-      el('today-range').innerHTML = '最高 ' + niceNum(data.daily.temperature_2m_max[0]) + '° / 最低 ' + niceNum(data.daily.temperature_2m_min[0]) + '°';
-    }
-    var h = data.hourly, arr = h.time || [], dateNow = nowJst();
-    var currentIso = dateNow.getFullYear() + '-' + pad(dateNow.getMonth() + 1) + '-' + pad(dateNow.getDate()) + 'T' + pad(dateNow.getHours());
-    var idx = 0, i;
-    // First next 3-hour interval (09, 12, 15, 18...)
-    var baseHour = Math.ceil(dateNow.getHours() / 3) * 3;
-    var start = new Date(dateNow.getFullYear(),dateNow.getMonth(),dateNow.getDate(),baseHour,0,0,0);
-    if (start.getTime() < dateNow.getTime()) { start = new Date(start.getTime() + 3*3600000); }
-    var wanted = start.getFullYear() + '-' + pad(start.getMonth()+1) + '-' + pad(start.getDate()) + 'T' + pad(start.getHours());
-    for (i = 0; i < arr.length; i++) { if (getHourForToday(arr[i]) >= wanted) { idx = i; break; } }
-    var hourHtml = '';
-    for (i = 0; i < 4 && idx + i*3 < arr.length; i++) {
-      var p = idx + i*3, hour = parseInt(arr[p].substring(11, 13),10), day = h.is_day && h.is_day[p] === 1;
-      hourHtml += '<div class="hour"><div class="hour-time">' + pad(hour) + ':00</div>' +
-        '<div class="hour-main">' + icon(h.weather_code[p], day) + '<span class="hour-temp">' + niceNum(h.temperature_2m[p]) + '°</span></div>' +
-        '<div class="rain">降水 ' + niceNum(h.precipitation_probability[p]) + '%</div></div>';
-    }
-    el('hours').innerHTML = hourHtml || '時間別予報を取得できません';
-    var dailyHtml = '', today = nowJst();
-    // Today is shown in the hero. Show the five following days.
-    for (i = 1; i < 6 && i < data.daily.time.length; i++) {
-      var dayParts = data.daily.time[i].split('-');
-      var dd = new Date(Number(dayParts[0]),Number(dayParts[1])-1,Number(dayParts[2]));
-      var prob = data.daily.precipitation_probability_max && data.daily.precipitation_probability_max[i];
-      dailyHtml += '<div class="day"><span class="day-name">' + (dd.getMonth() + 1) + '/' + dd.getDate() + '（' + weekdays[dd.getDay()] + '）</span>' + icon(data.daily.weather_code[i], true) +
-        '<span class="day-temp">' + niceNum(data.daily.temperature_2m_max[i]) + '° / ' + niceNum(data.daily.temperature_2m_min[i]) + '°</span>' +
-        '<span class="day-rain">降水 最大' + niceNum(prob) + '%</span></div>';
-    }
-    el('days').innerHTML = dailyHtml || '週間予報を取得できません';
-    var t = nowJst();
-    el('status').innerHTML = '30分ごとに更新 ・ 最終取得 ' + pad(t.getHours()) + ':' + pad(t.getMinutes());
-  }
-  function loadWeather() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', apiUrl, true);
-    xhr.timeout = 20000;
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4) {
-        if (xhr.status >= 200 && xhr.status < 300) {
-          try { render(JSON.parse(xhr.responseText)); return; } catch(e) {}
-        }
-        el('status').innerHTML = lastData ? '天気更新に失敗しました（前回取得値を表示）' : '天気を取得できません。Wi-Fi・日時設定をご確認ください';
-        if (!lastData) { el('current-weather').innerHTML = '取得失敗'; }
-      }
-    };
-    xhr.onerror = function() { el('status').innerHTML = '通信に失敗しました。Wi-Fi・日時設定をご確認ください'; };
-    xhr.ontimeout = function() { el('status').innerHTML = '天気の取得がタイムアウトしました'; };
-    try { xhr.send(null); } catch (e) { el('status').innerHTML = '天気を取得できません'; }
-  }
-  updateClock();
-  loadWeather();
-  setInterval(updateClock, 15000);
-  setInterval(loadWeather, REFRESH_MS);
-  // Resuming the tablet often resumes a suspended tab, refresh when visible.
-  if (typeof document.addEventListener === 'function') {
-    document.addEventListener('visibilitychange', function () { if (!document.hidden) { updateClock(); loadWeather(); } }, false);
-  }
-}());
+ });
+}
+function newsSlide(){
+ if(!items.length)return;
+ var it=items[itemPos%items.length];itemPos++;
+ put('news-title',it.title);put('news-source',it.source||'ニュース');id('news-link').href=it.url;
+}
+function onWake(){tick();weatherUpdate();otherUpdate();scale()}
+id('night-blank').onclick=wakeNight;
+id('night-blank').onkeydown=function(e){e=e||window.event;if(e.keyCode===13||e.keyCode===32){if(e.preventDefault)e.preventDefault();wakeNight();}};
+id('night-close').onclick=blackNow;
+scale();tick();weatherUpdate();otherUpdate();
+setInterval(tick,15000);setInterval(weatherUpdate,30*60*1000);
+setInterval(otherUpdate,30*60*1000);setInterval(newsSlide,20000);
+window.addEventListener('resize',scale,false);window.addEventListener('orientationchange',scale,false);
+if(document.addEventListener)document.addEventListener('visibilitychange',function(){if(!document.hidden)onWake()},false);
+})();
 </script>
 </body>
 </html>
