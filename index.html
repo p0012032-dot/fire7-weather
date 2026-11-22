@@ -4,190 +4,267 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#eeeeef">
-<title>ARAMAKI WEATHER | Fire 7</title>
+<title>荒牧の天気 | Fire 7</title>
 <style>
-/* Designed for 2017 Fire 7 / Fire OS 5. No CSS Grid, frameworks, external fonts or ES6. */
+/* Fire 7 Gen 7 / Fire OS 5: no JS frameworks, no modern CSS grid. */
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;width:100%;min-height:100%;overflow-x:hidden;background:#efeff0;color:#17191b;-webkit-text-size-adjust:100%}
-body{font-family:Arial,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif}
-a{color:inherit;text-decoration:none}
-#scroll-tip{height:28px;background:#e7e7e9;color:#86878a;text-align:center;line-height:28px;font-size:12px;letter-spacing:1px}
-#viewport-wrap{width:100%;height:528px;position:relative;overflow:hidden}
-#stage{position:absolute;top:0;left:0;width:1024px;height:528px;overflow:hidden;padding:10px 11px 5px;background:#efeff0;
- background-image:linear-gradient(160deg,#f6f6f6,#e9e9ec)}
-#stage-inner{width:1002px;height:513px}
-#after-space{height:86px;background:#efeff0}
-.card{background:#f6f6f7;background:linear-gradient(137deg,#fff 0%,#f3f3f4 76%,#e9eaec 100%);border:1px solid #d3d3d6;border-radius:17px;
- box-shadow:0 2px 4px rgba(0,0,0,.09),0 10px 17px rgba(0,0,0,.08),inset 0 1px 0 #fff;overflow:hidden}
-.top{height:341px;display:-webkit-flex;display:flex}
-.left{width:236px;height:341px;padding:11px 14px 8px;position:relative;margin-right:10px}
-.left:after,.forecast:after{content:"";position:absolute;bottom:-19px;left:-14%;height:58px;width:135%;border-radius:50% 50% 0 0;background:linear-gradient(160deg,rgba(160,161,165,.16),rgba(198,199,202,.07));pointer-events:none}
-.brand{font-size:14px;text-align:center;letter-spacing:2.2px;white-space:nowrap;color:#43464b}
-.date{font-size:23px;font-weight:500;text-align:center;margin:8px 0 5px;white-space:nowrap}
-/* Clock styles: 4 tap-to-switch presets, all within the original 82px allocation. */
-.clock-switch{height:82px;width:100%;position:relative;cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;outline-offset:-2px}
-.clock-option{width:100%;height:82px;display:none;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-family:Arial,sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap}
+html,body{margin:0;padding:0;width:100%;overflow-x:hidden;background:#eeeef0;color:#1d2022;-webkit-text-size-adjust:100%}
+body{font-family:Arial,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif}
+#viewport-wrap{width:100%;height:562px;position:relative;overflow:hidden}
+#stage{position:absolute;left:0;top:0;width:1024px;height:562px;padding:9px 10px 8px;background:linear-gradient(142deg,#f9f9f9,#e8e8eb);overflow:hidden}
+#layout{display:-webkit-flex;display:flex;width:1004px;height:545px}
+#primary{width:728px;height:545px;margin-right:10px}
+#aside{width:266px;height:545px}
+#lower-space{height:70px;background:#eeeef0}
+.card{background:#f9f9fa;background:linear-gradient(136deg,#fdfdfe 4%,#f4f4f5 74%,#e9e9eb 100%);border:1px solid #d1d1d4;border-radius:21px;box-shadow:0 2px 4px rgba(0,0,0,.1),0 7px 14px rgba(0,0,0,.09),inset 0 1px 0 #fff;overflow:hidden}
+.banner{height:81px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;overflow:hidden;white-space:nowrap;border-bottom:1px solid #d6d6d9;margin-bottom:10px;padding:4px 4px}
+.banner-place{width:171px;padding:0 9px 0 11px;border-right:1px solid #babcc0}
+.brand{font-size:20px;font-weight:700;letter-spacing:.5px}.date{font-size:18px;margin-top:3px;color:#393b3f}
+.anniversary{font-size:14px;line-height:17px;min-height:17px;margin-top:2px;color:#686a6d;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.clock-switch{width:184px;height:74px;position:relative;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;cursor:pointer;margin:0 11px 0 5px;outline-offset:-2px;-webkit-tap-highlight-color:transparent}
+.clock-option{display:none;width:100%;height:72px;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;white-space:nowrap;font-variant-numeric:tabular-nums}
 .mode-a .clock-a,.mode-b .clock-b,.mode-c .clock-c,.mode-d .clock-d{display:-webkit-flex;display:flex}
-.clock-a{font-size:66px;font-weight:600;letter-spacing:-3px;line-height:1}
-.clock-b .clock-b-hm{font-size:55px;letter-spacing:-2.8px;font-weight:600;line-height:1}
-.clock-b .clock-b-sec{font-size:25px;letter-spacing:-1px;color:#73757a;font-weight:500;line-height:1;align-self:center;margin:17px 0 0 0}
-.analog-face{display:block;width:79px;height:79px;overflow:visible}
-.clock-d .analog-face{width:69px;height:69px;margin-right:9px}
-.clock-d .clock-d-digital{font-size:35px;font-weight:600;letter-spacing:-1.7px}
-.clock-c,.clock-d{padding-bottom:2px}
-.clock-cycle-mark{position:absolute;right:1px;bottom:2px;color:#929398;font-size:11px;line-height:12px;pointer-events:none}
-.clock-switch:active{opacity:.83}
-
-.line{height:1px;background:#b9b9bc;margin:5px 1px 5px}
-.now{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;gap:4px;height:82px;white-space:nowrap}
-.now-icon svg{width:76px;height:76px;display:block}.now-icon{margin-right:4px}
-.now-temp{font-size:57px;font-weight:500;letter-spacing:-3px;line-height:1}
-.now-temp small{font-size:29px;letter-spacing:-2px}
-.now-condition{text-align:center;font-size:11px;color:#76777b;margin-top:-2px;height:14px}
-.stats{position:relative;z-index:2;margin-top:3px;font-size:14px;line-height:23px}
-.stat{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;white-space:nowrap}
-.stat-label{color:#55585d}.stat-value{font-weight:600;text-align:right}
-.mid{width:440px;height:341px;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;margin-right:10px}
-.time-card{height:165px;padding:10px 13px 8px;margin-bottom:10px}
-.card-heading{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;height:30px;border-bottom:1px solid #d5d6d9;padding-bottom:6px}
-.pill{background:linear-gradient(#68686c,#303135);color:#fff;border-radius:8px;font-size:20px;line-height:26px;font-weight:700;padding:0 14px;min-width:91px;text-align:center;white-space:nowrap;text-shadow:0 1px #222;margin-right:12px}
-.interval-label{font-size:14px;color:#55575b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.slot-row{height:116px;display:-webkit-flex;display:flex;-webkit-align-items:stretch;align-items:stretch;padding-top:5px}
-.slot{min-width:0;-webkit-flex:1;flex:1;border-left:1px solid #c6c7c9;text-align:center;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;-webkit-justify-content:flex-start;justify-content:flex-start}
-.slot:first-child{border-left:0}
-.slot-time{font-size:16px;line-height:21px;font-weight:600;white-space:nowrap}
-.slot-icon{height:45px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center}
-.slot-icon svg{height:41px;width:42px;display:block}
-.slot-temp{font-size:22px;font-weight:700;line-height:25px;white-space:nowrap}
-.slot-pop{font-size:15px;color:#44464b;line-height:21px;white-space:nowrap}
-.slot-row.dense .slot-time{font-size:13px}.slot-row.dense .slot-icon svg{height:29px;width:31px}.slot-row.dense .slot-icon{height:42px}.slot-row.dense .slot-temp{font-size:17px}.slot-row.dense .slot-pop{font-size:12px}
-.right{width:306px;height:341px;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column}
-.side-card{padding:8px 12px;min-height:0;display:block;margin-bottom:10px}
-.rain{position:relative;height:101px;background:linear-gradient(115deg,#fafafa 5%,#e7e8eb 100%)}
-.garbage{height:104px}.news{height:116px}.alert-link{position:absolute;right:12px;top:14px;font-size:10px;color:#62656b;text-decoration:underline}
-.side-heading{font-size:17px;font-weight:700;white-space:nowrap;letter-spacing:.2px}
-.side-heading .symbol{font-size:20px;font-weight:400;margin-right:7px}
-.side-rule{height:1px;background:#c9c9cd;margin-top:3px;margin-bottom:4px}
-.rain-main{font-size:19px;font-weight:700;line-height:26px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rain-sub{font-size:13px;color:#616267;line-height:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.garbage-row{height:26px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;font-size:16px}
-.day-tag{margin-right:12px;width:92px;text-align:center;font-size:13px;background:#e5e5e7;border-radius:7px;padding:3px 0;white-space:nowrap;color:#333}
-.day-tag.dark{background:linear-gradient(#77777a,#454548);color:white}
-.garbage-value{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:16px}
-.news-item{font-size:13px;line-height:19px;margin:2px 0 0;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#34363a}
-.news-item:before{content:"▪";margin-right:7px;color:#34363a}
-.forecast{margin-top:10px;height:161px;position:relative;display:-webkit-flex;display:flex;padding:12px 12px 10px}
-.forecast-heading{width:172px;-webkit-flex-shrink:0;flex-shrink:0;border-right:1px solid #c9cacf;padding-right:10px;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;position:relative;z-index:2}
-.forecast-heading .pill{font-size:16px;line-height:27px;padding:0 11px;white-space:nowrap}
-.forecast-heading .caption{font-size:13px;margin-top:10px;color:#55585c;text-align:center;line-height:19px}
-.forecast-days{width:calc(100% - 172px);display:-webkit-flex;display:flex;position:relative;z-index:2}
-.forecast-day{width:20%;border-right:1px solid #c6c6c9;text-align:center;padding:0 2px}
-.forecast-day:last-child{border-right:0}
-.forecast-date{font-size:15px;font-weight:700;line-height:23px;white-space:nowrap}
-.periods{display:-webkit-flex;display:flex;gap:0}
-.period{width:50%;text-align:center;border-left:1px solid #d4d5d8;min-width:0}
-.period:first-child{border-left:0}
-.period-title{font-size:13px;color:#55585e;line-height:19px}
-.period-icon{height:36px;display:-webkit-flex;display:flex;-webkit-justify-content:center;justify-content:center;-webkit-align-items:center;align-items:center}
-.period-icon svg{width:30px;height:30px}
-.period-temp{font-size:18px;font-weight:700;line-height:22px}
-.period-pop{font-size:13px;color:#444;white-space:nowrap;line-height:18px}
-.credits{height:10px;font-size:9px;text-align:right;padding-right:8px;padding-top:2px;color:#85868a}
-svg.weather-icon{overflow:visible}
-#night-blank{display:none;position:fixed;z-index:999;inset:0;top:0;bottom:0;left:0;right:0;background:#000;cursor:pointer}
-#night-close{display:none;position:fixed;z-index:1000;bottom:14px;right:14px;border-radius:7px;border:1px solid #777;background:#222;color:#fff;padding:11px;font-size:14px}
-body.night,body.night #scroll-tip,body.night #after-space{background:#000!important}
-body.night #night-blank{display:block}
-body.night-preview #night-close{display:block}
+.clock-a{font-size:65px;letter-spacing:-3px;font-weight:600}
+.clock-b .clock-b-hm{font-size:49px;font-weight:600;letter-spacing:-2px}.clock-b .clock-b-sec{font-size:20px;color:#777;margin-top:16px}
+.clock-d .clock-d-digital{font-size:29px;letter-spacing:-1px;font-weight:600}
+.analog-face{width:70px;height:70px;display:block}.clock-d .analog-face{width:60px;height:60px;margin-right:5px}
+.clock-cycle-mark{position:absolute;right:0;bottom:0;color:#9b9da0;font-size:11px;pointer-events:none}
+.info{display:-webkit-flex;display:flex;-webkit-flex:1;flex:1;-webkit-justify-content:space-around;justify-content:space-around;-webkit-align-items:center;align-items:center;border-left:1px solid #b8b9bc;height:53px;padding:0 4px}
+.info-block{font-size:14px;line-height:20px;min-width:0;text-align:center}.info-label{color:#575b60}.info-value{font-size:16px;font-weight:700}
+.info-wind{width:102px}.info-wind .info-value{font-size:14px}
+.weather-panel{height:214px;padding:10px 13px 8px;margin-bottom:10px;position:relative}
+.weather-panel.tomorrow{height:230px;margin-bottom:0}
+.weather-panel:before{content:"";position:absolute;right:-10%;top:-22px;width:260px;height:90px;opacity:.35;background:linear-gradient(150deg,transparent 25%,#dadadc 75%,transparent 100%);transform:rotate(-13deg);pointer-events:none}
+.weather-title{height:43px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;white-space:nowrap;position:relative;z-index:1}
+.tag{background:linear-gradient(#66696d,#282a2d);font-size:26px;font-weight:700;color:#fff;min-width:108px;text-align:center;padding:4px 13px 5px;border-radius:10px;line-height:33px;box-shadow:inset 0 1px 1px rgba(255,255,255,.4),0 2px 4px #d1d2d5;margin-right:15px}
+.weather-title .subtitle{font-size:19px;color:#303337;white-space:nowrap}
+.weather-content{display:-webkit-flex;display:flex;height:149px;position:relative;z-index:1}
+.tomorrow .weather-content{height:117px}
+.featured{width:300px;flex-shrink:0;-webkit-flex-shrink:0;border-right:1px solid #bfc0c4;text-align:center;padding-right:6px;position:relative}
+.featured-main{height:117px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center}
+.featured-icon{height:110px;width:132px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center}
+.featured-icon svg{width:122px;height:112px}
+.featured-temp{font-size:88px;letter-spacing:-5px;white-space:nowrap;line-height:1;font-weight:700}
+.featured-temp small{font-size:48px;letter-spacing:-2px}
+.featured-foot{font-size:17px;color:#383a3d;margin-top:0;font-weight:600}
+.tomorrow .featured-main{height:90px}.tomorrow .featured-icon{height:94px}.tomorrow .featured-icon svg{height:98px;width:112px}.tomorrow .featured-temp{font-size:84px}
+.slot-row{display:-webkit-flex;display:flex;-webkit-flex:1;flex:1;-webkit-align-items:stretch;align-items:stretch;padding-top:0;min-width:0}
+.slot{-webkit-flex:1;flex:1;min-width:0;text-align:center;border-left:1px solid #cbcdd0;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center}
+.slot:first-child{border-left:0}.slot-time{font-size:23px;font-weight:700;line-height:31px;white-space:nowrap}
+.slot-icon{height:58px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center}
+.slot-icon svg{width:62px;height:56px}.slot-temp{font-size:30px;font-weight:700;line-height:34px;white-space:nowrap}
+.slot-pop{font-size:21px;line-height:24px;white-space:nowrap;color:#313337}
+.tomorrow .slot-time{font-size:22px;line-height:27px}.tomorrow .slot-icon{height:45px}.tomorrow .slot-icon svg{width:53px;height:49px}.tomorrow .slot-temp{font-size:28px;line-height:29px}.tomorrow .slot-pop{font-size:19px;line-height:24px}
+.slot-row.dense .slot-time{font-size:18px}.slot-row.dense .slot-icon{height:57px}.slot-row.dense .slot-icon svg{width:47px}.slot-row.dense .slot-temp{font-size:23px}.slot-row.dense .slot-pop{font-size:17px}
+.rain-strip{height:49px;position:relative;z-index:1;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;border:1px solid #d2d3d5;border-radius:24px;background:linear-gradient(160deg,rgba(255,255,255,.76),rgba(220,220,224,.65));margin-top:5px;padding:4px 13px;font-size:17px;overflow:hidden}
+.rain-label{border-radius:17px;background:linear-gradient(#64666a,#292b2e);color:white;font-weight:700;font-size:20px;padding:4px 17px;white-space:nowrap;margin-right:14px}
+.rain-text{font-size:19px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.forecast{height:545px;padding:10px 12px 9px;position:relative}
+.forecast:after{content:"";position:absolute;bottom:-27px;left:-30%;width:150%;height:65px;border-radius:50% 50% 0 0;background:linear-gradient(145deg,#c7c8ccbb,#f6f6f622);pointer-events:none}
+.forecast-head{height:80px;text-align:center;position:relative;z-index:1}
+.forecast-head .tag{display:inline-block;font-size:23px;line-height:35px;margin:0;padding:3px 9px;min-width:0}
+.forecast-hint{font-size:14px;margin-top:5px;color:#55575a}
+.five-row{height:88px;border-top:1px solid #c9cacc;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;position:relative;z-index:1}
+.five-row:first-child{border-top:0}
+.day-date{width:56px;flex-shrink:0;-webkit-flex-shrink:0;text-align:center;font-weight:700;font-size:20px;line-height:25px}.day-date small{font-size:16px}
+.day-icon{width:60px;-webkit-flex-shrink:0;flex-shrink:0;text-align:center;height:56px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center}
+.day-icon svg{width:55px;height:53px}.day-temp{width:60px;text-align:center;-webkit-flex-shrink:0;flex-shrink:0;font-size:16px;font-weight:700;line-height:22px}
+.day-pop{border-left:1px solid #c0c2c5;padding-left:8px;-webkit-flex:1;flex:1;line-height:27px;font-size:14px;text-align:right;white-space:nowrap;color:#26282b}
+.day-pop b{font-size:16px}.day-pop span{color:#595b5f}
+#night-blank{display:none;position:fixed;left:0;right:0;top:0;bottom:0;z-index:999;background:#000;cursor:pointer}
+#night-close{display:none;position:fixed;bottom:14px;right:14px;z-index:1000;border-radius:8px;border:1px solid #777;background:#222;color:#fff;padding:10px 15px;font-size:14px}
+body.night #night-blank,body.night-preview #night-close{display:block}
+body.night{background:#000}
 @media(max-width:600px) and (orientation:portrait){
- #scroll-tip,#after-space{display:none}
- #viewport-wrap{height:auto!important;overflow:visible}
- #stage{position:relative!important;top:auto!important;left:auto!important;transform:none!important;-webkit-transform:none!important;width:100%;height:auto;overflow:visible;padding:10px;background:#efeff0}
- #stage-inner{width:100%;height:auto}
- .top{height:auto;display:block}
- .left,.mid,.right{width:100%;height:auto;margin-bottom:11px}
- .left{min-height:320px}.mid{display:block}.time-card{margin-bottom:11px}.right{display:block}.side-card{margin-bottom:11px}
- .forecast{height:auto;margin-top:0;display:block;padding:12px 8px}.forecast-heading{width:100%;height:55px;border-right:0;border-bottom:1px solid #aaa}.forecast-heading .caption{display:none}
- .forecast-days{width:100%;overflow-x:auto;padding-top:8px}.forecast-day{min-width:130px}
- .credits{height:auto;line-height:13px}
+ #viewport-wrap{height:auto!important;overflow:visible}#stage{position:relative;width:100%;height:auto;padding:8px;transform:none!important;-webkit-transform:none!important}
+ #layout{display:block;width:100%;height:auto}#primary,#aside{width:100%;height:auto;margin:0}.banner{height:auto;min-height:77px;overflow:visible}
+ .banner-place{width:32%;padding:0 4px}.brand{font-size:15px}.date{font-size:14px}.anniversary{font-size:11px;line-height:14px;min-height:14px;margin-top:1px}.clock-switch{width:40%;margin:0 3px}.clock-a{font-size:49px}.clock-b .clock-b-hm{font-size:35px}.clock-d .clock-d-digital{font-size:20px}
+ .info{display:none}.weather-panel,.weather-panel.tomorrow{height:auto;min-height:220px;margin-bottom:9px;padding:8px}.weather-title .subtitle{font-size:12px}.tag{font-size:19px;min-width:70px;line-height:27px;padding:3px 8px;margin-right:7px}
+ .weather-content{height:auto;min-height:146px}.featured{width:34%;padding-right:2px}.featured-main{height:112px}.featured-icon{width:48%;height:77px}.featured-icon svg{width:100%;height:80px}.featured-temp{font-size:41px;letter-spacing:-2px}.featured-temp small{font-size:22px}
+ .featured-foot{font-size:11px}.slot-row .slot-time{font-size:13px;line-height:23px}.slot-row .slot-icon{height:42px}.slot-row .slot-icon svg{width:34px}.slot-row .slot-temp{font-size:15px;line-height:22px}.slot-row .slot-pop{font-size:12px}
+ .tomorrow .featured-main{height:103px}.tomorrow .featured-icon svg{height:70px}.tomorrow .featured-temp{font-size:39px}.tomorrow .slot-time{font-size:12px}.tomorrow .slot-icon{height:38px}.tomorrow .slot-temp{font-size:15px}.tomorrow .slot-pop{font-size:11px}
+ .rain-label{font-size:14px;padding:4px 9px}.rain-text{font-size:12px}.forecast{height:auto;margin-top:8px}.forecast-head{height:68px}.five-row{height:88px}.day-date{width:19%}.day-icon{width:25%}.day-temp{width:22%}.day-pop{font-size:14px;text-align:center}
+ #lower-space{display:none}
 }
 </style>
 </head>
 <body>
-<div id="scroll-tip">↑ 少し上にスクロールすると表示領域が広がる場合があります</div>
-<div id="viewport-wrap"><div id="stage"><div id="stage-inner">
-  <div class="top">
-    <section class="card left" aria-label="現在の天気">
-      <div class="brand">ARAMAKI WEATHER</div>
-      <div class="date" id="date">--月--日（-）</div>
-      <div id="clock-switch" class="clock-switch mode-a" role="button" tabindex="0" aria-label="時計をタップして切り替えます。現在はデジタル（時・分）" title="タップで時計切り替え">
-        <div class="clock-option clock-a" id="clock-a-time">--:--</div>
-        <div class="clock-option clock-b"><span class="clock-b-hm" id="clock-b-hm">--:--</span><span class="clock-b-sec" id="clock-b-sec">:--</span></div>
-        <div class="clock-option clock-c"><svg class="analog-face" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="47" fill="none" stroke="#414347" stroke-width="1.5"/><line x1="50" y1="9" x2="50" y2="18" transform="rotate(0 50 50)" stroke="#5d5f62" stroke-width="2.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(30 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(60 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="18" transform="rotate(90 50 50)" stroke="#5d5f62" stroke-width="2.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(120 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(150 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="18" transform="rotate(180 50 50)" stroke="#5d5f62" stroke-width="2.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(210 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(240 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="18" transform="rotate(270 50 50)" stroke="#5d5f62" stroke-width="2.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(300 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(330 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line id="hour-c" x1="50" y1="53" x2="50" y2="28" stroke="#1e2022" stroke-linecap="round" stroke-width="5"/><line id="minute-c" x1="50" y1="55" x2="50" y2="17" stroke="#1e2022" stroke-linecap="round" stroke-width="3.2"/><line id="second-c" x1="50" y1="59" x2="50" y2="15" stroke="#92949a" stroke-linecap="round" stroke-width="1.5"/><circle cx="50" cy="50" r="3.5" fill="#1e2022"/></svg></div>
-        <div class="clock-option clock-d"><svg class="analog-face" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="47" fill="none" stroke="#414347" stroke-width="1.5"/><line x1="50" y1="9" x2="50" y2="18" transform="rotate(0 50 50)" stroke="#5d5f62" stroke-width="2.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(30 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(60 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="18" transform="rotate(90 50 50)" stroke="#5d5f62" stroke-width="2.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(120 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(150 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="18" transform="rotate(180 50 50)" stroke="#5d5f62" stroke-width="2.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(210 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(240 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="18" transform="rotate(270 50 50)" stroke="#5d5f62" stroke-width="2.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(300 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line x1="50" y1="9" x2="50" y2="14" transform="rotate(330 50 50)" stroke="#5d5f62" stroke-width="1.4" /><line id="hour-d" x1="50" y1="53" x2="50" y2="28" stroke="#1e2022" stroke-linecap="round" stroke-width="5"/><line id="minute-d" x1="50" y1="55" x2="50" y2="17" stroke="#1e2022" stroke-linecap="round" stroke-width="3.2"/><line id="second-d" x1="50" y1="59" x2="50" y2="15" stroke="#92949a" stroke-linecap="round" stroke-width="1.5"/><circle cx="50" cy="50" r="3.5" fill="#1e2022"/></svg><span class="clock-d-digital" id="clock-d-hm">--:--</span></div>
-        <span class="clock-cycle-mark" aria-hidden="true">↻</span>
+<div id="viewport-wrap"><div id="stage"><div id="layout">
+  <main id="primary">
+    <header class="banner" aria-label="現在時刻と体感情報">
+      <div class="banner-place"><div class="brand">荒牧の天気</div><div class="date" id="date">--月--日（-）</div><div class="anniversary" id="anniversary" aria-label="今日の記念日"></div></div>
+      <div aria-label="時計をタップして切り替えます。現在はデジタル（時・分）" class="clock-switch mode-a" id="clock-switch" role="button" tabindex="0" title="タップで時計切り替え">
+<div class="clock-option clock-a" id="clock-a-time">--:--</div>
+<div class="clock-option clock-b"><span class="clock-b-hm" id="clock-b-hm">--:--</span><span class="clock-b-sec" id="clock-b-sec">:--</span></div>
+<div class="clock-option clock-c"><svg aria-hidden="true" class="analog-face" viewbox="0 0 100 100"><circle cx="50" cy="50" fill="none" r="47" stroke="#414347" stroke-width="1.5"></circle><line stroke="#5d5f62" stroke-width="2.4" transform="rotate(0 50 50)" x1="50" x2="50" y1="9" y2="18"></line><line stroke="#5d5f62" stroke-width="1.4" transform="rotate(30 50 50)" x1="50" x2="50" y1="9" y2="14"></line><line stroke="#5d5f62" stroke-width="1.4" transform="rotate(60 50 50)" x1="50" x2="50" y1="9" y2="14"></line><line stroke="#5d5f62" stroke-width="2.4" transform="rotate(90 50 50)" x1="50" x2="50" y1="9" y2="18"></line><line stroke="#5d5f62" stroke-width="1.4" transform="rotate(120 50 50)" x1="50" x2="50" y1="9" y2="14"></line><line stroke="#5d5f62" stroke-width="1.4" transform="rotate(150 50 50)" x1="50" x2="50" y1="9" y2="14"></line><line stroke="#5d5f62" stroke-width="2.4" transform="rotate(180 50 50)" x1="50" x2="50" y1="9" y2="18"></line><line stroke="#5d5f62" stroke-width="1.4" transform="rotate(210 50 50)" x1="50" x2="50" y1="9" y2="14"></line><line stroke="#5d5f62" stroke-width="1.4" transform="rotate(240 50 50)" x1="50" x2="50" y1="9" y2="14"></line><line stroke="#5d5f62" stroke-width="2.4" transform="rotate(270 50 50)" x1="50" x2="50" y1="9" y2="18"></line><line stroke="#5d5f62" stroke-width="1.4" transform="rotate(300 50 50)" x1="50" x2="50" y1="9" y2="14"></line><line stroke="#5d5f62" stroke-width="1.4" transform="rotate(330 50 50)" x1="50" x2="50" y1="9" y2="14"></line><line id="hour-c" stroke="#1e2022" stroke-linecap="round" stroke-width="5" x1="50" x2="50" y1="53" y2="28"></line><line id="minute-c" stroke="#1e2022" stroke-linecap="round" stroke-width="3.2" x1="50" x2="50" y1="55" y2="17"></line><line id="second-c" stroke="#92949a" stroke-linecap="round" stroke-width="1.5" x1="50" x2="50" y1="59" y2="15"></line><circle cx="50" cy="50" fill="#1e2022" r="3.5"></circle></svg></div>
+<div class="clock-option clock-d"><svg aria-hidden="true" class="analog-face" viewbox="0 0 100 100"><circle cx="50" cy="50" fill="none" r="47" stroke="#414347" stroke-width="1.5"></circle><line stroke="#5d5f62" stroke-width="2.4" transform="rotate(0 50 50)" x1="50" x2="50" y1="9" y2="18"></line><line stroke="#5d5f62" stroke-width="1.4" transform="rotate(30 50 50)" x1="50" x2="50" y1="9" y2="14"></line><line stroke="#5d5f62" stroke-width="1.4" transform="rotate(60 50 50)" x1="50" x2="50" y1="9" y2="14"></line><line stroke="#5d5f62" stroke-width="2.4" transform="rotate(90 50 50)" x1="50" x2="50" y1="9" y2="18"></line><line stroke="#5d5f62" stroke-width="1.4" transform="rotate(120 50 50)" x1="50" x2="50" y1="9" y2="14"></line><line stroke="#5d5f62" stroke-width="1.4" transform="rotate(150 50 50)" x1="50" x2="50" y1="9" y2="14"></line><line stroke="#5d5f62" stroke-width="2.4" transform="rotate(180 50 50)" x1="50" x2="50" y1="9" y2="18"></line><line stroke="#5d5f62" stroke-width="1.4" transform="rotate(210 50 50)" x1="50" x2="50" y1="9" y2="14"></line><line stroke="#5d5f62" stroke-width="1.4" transform="rotate(240 50 50)" x1="50" x2="50" y1="9" y2="14"></line><line stroke="#5d5f62" stroke-width="2.4" transform="rotate(270 50 50)" x1="50" x2="50" y1="9" y2="18"></line><line stroke="#5d5f62" stroke-width="1.4" transform="rotate(300 50 50)" x1="50" x2="50" y1="9" y2="14"></line><line stroke="#5d5f62" stroke-width="1.4" transform="rotate(330 50 50)" x1="50" x2="50" y1="9" y2="14"></line><line id="hour-d" stroke="#1e2022" stroke-linecap="round" stroke-width="5" x1="50" x2="50" y1="53" y2="28"></line><line id="minute-d" stroke="#1e2022" stroke-linecap="round" stroke-width="3.2" x1="50" x2="50" y1="55" y2="17"></line><line id="second-d" stroke="#92949a" stroke-linecap="round" stroke-width="1.5" x1="50" x2="50" y1="59" y2="15"></line><circle cx="50" cy="50" fill="#1e2022" r="3.5"></circle></svg><span class="clock-d-digital" id="clock-d-hm">--:--</span></div>
+<span aria-hidden="true" class="clock-cycle-mark">↻</span>
+</div>
+      <div class="info">
+        <div class="info-block"><div class="info-label">体感</div><div class="info-value" id="feels">--℃</div></div>
+        <div class="info-block"><div class="info-label">湿度</div><div class="info-value" id="humidity">--%</div></div>
+        <div class="info-block info-wind"><div class="info-label">風</div><div class="info-value" id="wind">-- m/s</div></div>
       </div>
-      <div class="line"></div>
-      <div class="now"><span class="now-icon" id="weather-icon"></span><span class="now-temp"><span id="current-temp">--</span><small>°C</small></span></div>
-      <div class="now-condition" id="weather-label">天気取得中</div>
-      <div class="stats">
-        <div class="stat"><span class="stat-label">体感温度 / Feels like</span><span class="stat-value" id="feels">--°</span></div>
-        <div class="stat"><span class="stat-label">湿度 / Humidity</span><span class="stat-value" id="humidity">--%</span></div>
-        <div class="stat"><span class="stat-label">風 / Wind</span><span class="stat-value" id="wind">-- m/s</span></div>
+    </header>
+    <section class="card weather-panel" aria-label="今日の天気">
+      <div class="weather-title"><span class="tag">今日</span><span class="subtitle">現在〜24時（3時間ごと）</span></div>
+      <div class="weather-content">
+        <div class="featured"><div class="featured-main"><div class="featured-icon" id="weather-icon"></div><div class="featured-temp"><span id="current-temp">--</span><small>℃</small></div></div>
+          <div class="featured-foot" id="today-hi-lo">最高 --℃ ／ 最低 --℃</div></div>
+        <div class="slot-row" id="today-slots"><div class="slot">天気取得中…</div></div>
       </div>
     </section>
-    <div class="mid">
-      <section class="card time-card" aria-label="今日の時間別天気">
-        <div class="card-heading"><span class="pill">今日</span><span class="interval-label" id="today-label">現在〜24時（3時間ごと）</span></div>
-        <div class="slot-row" id="today-slots"><div class="slot">天気取得中...</div></div>
-      </section>
-      <section class="card time-card" aria-label="明日の時間別天気">
-        <div class="card-heading"><span class="pill">明日</span><span class="interval-label">0・6・12・18時（6時間ごと）</span></div>
-        <div class="slot-row" id="tomorrow-slots"><div class="slot">天気取得中...</div></div>
-      </section>
-    </div>
-    <div class="right">
-      <section class="card side-card rain" aria-label="雨の見込み">
-        <div class="side-heading"><span class="symbol">☂</span>雨の見込み</div><a class="alert-link" href="https://www.jma.go.jp/bosai/warning/" target="_blank" rel="noopener">警報確認</a>
-        <div class="side-rule"></div>
-        <div class="rain-main" id="rain-onset">予報を確認中…</div>
-        <div class="rain-sub" id="rain-prob">今後48時間の降水予報</div>
-      </section>
-      <a class="card side-card garbage" href="https://www.city.itami.lg.jp/SOSIKI/SHIMIN/KANKYOC/h28cal/tikupdf/1453869112924.html" target="_blank" rel="noopener" aria-label="伊丹市のごみ収集カレンダー">
-        <div class="side-heading"><span class="symbol">▤</span>ゴミ収集</div>
-        <div class="side-rule"></div>
-        <div class="garbage-row"><span class="day-tag dark">今日</span><span class="garbage-value" id="garbage-today">確認中</span></div>
-        <div class="garbage-row"><span class="day-tag">明日</span><span class="garbage-value" id="garbage-tomorrow">確認中</span></div>
-      </a>
-      <section class="card side-card news" aria-label="主要ニュース">
-        <div class="side-heading"><span class="symbol">▣</span>ニュース（BBC）</div>
-        <div class="side-rule"></div>
-        <div id="news-container"><a class="news-item" href="https://www.bbc.com/japanese" target="_blank" rel="noopener">ニュースを読み込み中…</a></div>
-      </section>
-    </div>
-  </div>
-  <section class="card forecast" aria-label="明後日から5日間の天気">
-    <div class="forecast-heading"><div class="pill">5日間の予報</div><div class="caption">明後日から5日間<br>午前 / 午後</div></div>
-    <div class="forecast-days" id="forecast-days"><div class="forecast-day">予報を取得中...</div></div>
-  </section>
-  <div class="credits" id="status">Open-Meteo（予報モデル）・伊丹市A2地区公式カレンダー・BBC日本語RSS｜夜間0〜5時は黒画面</div>
+    <section class="card weather-panel tomorrow" aria-label="明日の天気">
+      <div class="weather-title"><span class="tag">明日</span><span class="subtitle">0・6・12・18時（6時間ごと）</span></div>
+      <div class="weather-content">
+        <div class="featured"><div class="featured-main"><div class="featured-icon" id="tomorrow-icon"></div><div class="featured-temp"><span id="tomorrow-temp">--</span><small>℃</small></div></div>
+          <div class="featured-foot" id="tomorrow-hi-lo">最高 --℃ ／ 最低 --℃</div></div>
+        <div class="slot-row" id="tomorrow-slots"><div class="slot">天気取得中…</div></div>
+      </div>
+      <div class="rain-strip"><span class="rain-label">☂ 傘の目安</span><span class="rain-text" id="rain-onset">降水予報を確認中…</span></div>
+    </section>
+  </main>
+  <aside id="aside" class="card forecast" aria-label="明後日から5日間の天気">
+    <div class="forecast-head"><span class="tag">5日間の予報</span><div class="forecast-hint">明後日から5日間 ／ 午前・午後の降水確率</div></div>
+    <div id="forecast-days"><div class="five-row">天気取得中…</div></div>
+  </aside>
 </div></div></div>
-<div id="after-space"></div>
+<div id="lower-space"></div>
 <div id="night-blank" role="button" tabindex="0" aria-label="タップして2分間天気を表示"></div>
-<button id="night-close" type="button">黒画面に戻す</button>
+<button type="button" id="night-close">黒画面に戻す</button>
 <script>
 (function(){
 'use strict';
 var LAT=34.8107,LON=135.3825;
-var WEEK=['日','月','火','水','木','金','土'],ENGDAY=['SUN','MON','TUE','WED','THU','FRI','SAT'];
-var RANGE_START='2026-11-22',RANGE_END='2027-03-31';
+var WEEK=['日','月','火','水','木','金','土'];
+// 代表的な固定日の記念日。日付が年によって変わる行事は含めない。
+var ANNIVERSARIES={
+ '01-01':'元日',
+ '01-07':'七草の日',
+ '01-10':'110番の日',
+ '01-11':'鏡開き',
+ '01-15':'小正月',
+ '01-17':'防災とボランティアの日',
+ '01-22':'カレーの日',
+ '01-24':'教育の国際デー',
+ '01-26':'文化財防火デー',
+ '02-02':'世界湿地の日',
+ '02-04':'世界対がんデー',
+ '02-07':'北方領土の日',
+ '02-11':'建国記念の日',
+ '02-14':'バレンタインデー',
+ '02-20':'世界社会正義の日',
+ '02-22':'猫の日',
+ '02-23':'天皇誕生日',
+ '02-29':'うるう日',
+ '03-03':'ひな祭り',
+ '03-08':'国際女性デー',
+ '03-09':'ありがとうの日',
+ '03-11':'東日本大震災発生日',
+ '03-14':'ホワイトデー',
+ '03-20':'国際幸福デー',
+ '03-21':'国際人種差別撤廃デー',
+ '03-22':'世界水の日',
+ '03-27':'世界演劇の日',
+ '04-01':'エイプリルフール',
+ '04-02':'世界自閉症啓発デー',
+ '04-07':'世界保健デー',
+ '04-08':'花まつり',
+ '04-10':'駅弁の日',
+ '04-15':'東京ディズニーランド開園記念日',
+ '04-18':'世界遺産の日',
+ '04-22':'アースデイ',
+ '04-23':'世界本の日',
+ '04-29':'昭和の日',
+ '05-01':'メーデー',
+ '05-03':'憲法記念日',
+ '05-04':'みどりの日',
+ '05-05':'こどもの日',
+ '05-08':'世界赤十字デー',
+ '05-09':'アイスクリームの日',
+ '05-12':'看護の日',
+ '05-15':'沖縄本土復帰記念日',
+ '05-22':'国際生物多様性の日',
+ '05-30':'ごみゼロの日',
+ '05-31':'世界禁煙デー',
+ '06-01':'写真の日',
+ '06-04':'虫歯予防デー',
+ '06-05':'世界環境デー',
+ '06-06':'楽器の日',
+ '06-08':'世界海洋デー',
+ '06-10':'時の記念日',
+ '06-14':'世界献血者デー',
+ '06-16':'和菓子の日',
+ '06-20':'世界難民の日',
+ '06-23':'沖縄慰霊の日',
+ '06-26':'国際薬物乱用防止デー',
+ '07-01':'国民安全の日',
+ '07-06':'サラダ記念日',
+ '07-07':'七夕',
+ '07-11':'世界人口デー',
+ '07-20':'月面着陸の日',
+ '07-24':'劇画の日',
+ '07-30':'国際フレンドシップ・デー',
+ '08-01':'水の日',
+ '08-06':'広島原爆の日',
+ '08-08':'世界猫の日',
+ '08-09':'長崎原爆の日',
+ '08-11':'山の日',
+ '08-12':'国際青少年デー',
+ '08-15':'終戦の日',
+ '08-19':'世界人道デー',
+ '08-31':'野菜の日',
+ '09-01':'防災の日',
+ '09-05':'国際チャリティー・デー',
+ '09-08':'国際識字デー',
+ '09-09':'救急の日',
+ '09-16':'国際オゾン層保護デー',
+ '09-21':'国際平和デー',
+ '09-27':'世界観光の日',
+ '09-29':'招き猫の日',
+ '10-01':'コーヒーの日',
+ '10-04':'世界動物の日',
+ '10-05':'世界教師の日',
+ '10-10':'目の愛護デー',
+ '10-13':'国際防災の日',
+ '10-16':'世界食料デー',
+ '10-20':'世界骨粗鬆症デー',
+ '10-24':'国連デー',
+ '10-31':'ハロウィン',
+ '11-01':'犬の日',
+ '11-03':'文化の日',
+ '11-05':'世界津波の日',
+ '11-09':'119番の日',
+ '11-11':'ポッキー＆プリッツの日',
+ '11-14':'世界糖尿病デー',
+ '11-16':'国際寛容デー',
+ '11-20':'世界こどもの日',
+ '11-22':'いい夫婦の日',
+ '11-23':'勤労感謝の日',
+ '11-24':'和食の日',
+ '11-26':'いい風呂の日',
+ '11-28':'税関記念日',
+ '11-29':'いい肉の日',
+ '12-01':'世界エイズデー',
+ '12-03':'国際障害者デー',
+ '12-05':'国際ボランティア・デー',
+ '12-06':'音の日',
+ '12-07':'国際民間航空デー',
+ '12-10':'世界人権デー',
+ '12-12':'漢字の日',
+ '12-18':'国際移住者デー',
+ '12-24':'クリスマスイブ',
+ '12-25':'クリスマス',
+ '12-31':'大晦日'
+};
+function todayAnniversary(d){return ANNIVERSARIES[pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate())]||''}
+
 var WEATHER_URL='https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON+
  '&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,wind_direction_10m,weather_code,is_day'+
  '&hourly=temperature_2m,precipitation_probability,precipitation,weather_code,is_day'+
- '&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_probability_max'+
+ '&daily=temperature_2m_max,temperature_2m_min,weather_code'+
  '&forecast_days=7&wind_speed_unit=ms&timezone=Asia%2FTokyo';
-var weather=null,weatherDate='',weatherUpdatedAt=0,newsItems=[],newsOffset=0;
-var wakeUntil=0,previousBlack=false,WAKE_MS=2*60*1000;
+var weather=null,weatherDate='',wakeUntil=0,previousBlack=false,WAKE_MS=2*60*1000;
 function id(s){return document.getElementById(s)}
 function pad(v){return v<10?'0'+v:String(v)}
 function jst(){return new Date(new Date().getTime()+9*3600000)}
@@ -210,31 +287,18 @@ function icon(c,isDay){
  if(c>=71&&c<=77||c>=85&&c<=86)return a+cloud+'<path '+s+' d="M19 55h8m-4-4v8M35 55h8m-4-4v8"/></svg>';
  return a+cloud+'</svg>';
 }
+
 function fit(){
- var wrap=id('viewport-wrap'),stage=id('stage');
- if(window.innerWidth<=600&&window.innerHeight>window.innerWidth){stage.style.cssText='';wrap.style.height='auto';return}
- var w=window.innerWidth||document.documentElement.clientWidth,sc=w/1024;
- if(!sc||sc<=0)sc=1;
- stage.style.webkitTransform='scale('+sc+')';stage.style.transform='scale('+sc+')';
- stage.style.webkitTransformOrigin='0 0';stage.style.transformOrigin='0 0';
- wrap.style.height=Math.ceil(528*sc)+'px';
+ var w=window.innerWidth||document.documentElement.clientWidth,wrap=id('viewport-wrap'),stage=id('stage');
+ if(w<=600&&window.innerHeight>w){stage.style.cssText='';wrap.style.height='auto';return}
+ var scale=w/1024;if(scale<=0)scale=1;
+ stage.style.webkitTransform='scale('+scale+')';stage.style.transform='scale('+scale+')';stage.style.webkitTransformOrigin='0 0';stage.style.transformOrigin='0 0';
+ wrap.style.height=Math.ceil(562*scale)+'px';
 }
-function garbageFor(d){
- var key=ymd(d),w=d.getUTCDay();
- if(key<RANGE_START||key>RANGE_END)return '公式日程を確認';
- // Weekday-based A2 guidance for the published months; holidays/special collections require the city calendar.
- if(key==='2026-12-31'||key==='2027-01-01'||key==='2027-01-02'||key==='2027-01-03')return '収集なし';
- if(w===1)return '資源物';
- if(w===2)return '燃やすごみ';
- if(w===3)return '不燃・プラ';
- if(w===5)return '燃やすごみ / びん・PET';
- return 'なし';
-}
-function showGarbage(){var d=jst();setText('garbage-today',garbageFor(d));setText('garbage-tomorrow',garbageFor(tomorrowDate(d,1)))}
 function isNight(){return jst().getUTCHours()<5}
 function black(){return isNight()&&new Date().getTime()>=wakeUntil}
 function updateNight(){
- var b=black(),night=isNight();document.body.className=b?'night':(night?'night-preview':'');
+ var b=black();document.body.className=b?'night':(isNight()?'night-preview':'');
  var meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.setAttribute('content',b?'#000':'#eeeeef');return b;
 }
 var CLOCK_MODES=['a','b','c','d'],clockIndex=0;
@@ -266,105 +330,94 @@ function initClockMode(){
  el.onclick=function(){setClockMode(clockIndex+1)};
  el.onkeydown=function(e){e=e||window.event;if(e.keyCode===13||e.keyCode===32){if(e.preventDefault)e.preventDefault();setClockMode(clockIndex+1)}};
 }
-function tick(){
- var d=jst();setText('date',(d.getUTCMonth()+1)+'月'+d.getUTCDate()+'日（'+WEEK[d.getUTCDay()]+'）');refreshClock(d);showGarbage();
- var b=updateNight();
- if(weather&&weatherDate!==ymd(d)){weather=null;weatherUpdate()}
- if(previousBlack&&!b&&!isNight()){weatherUpdate();newsUpdate()}
- previousBlack=b;
-}
-function wakeNight(){if(!isNight())return;wakeUntil=new Date().getTime()+WAKE_MS;tick();fit();weatherUpdate();newsUpdate()}
-function blackNow(){wakeUntil=0;tick()}
+
 function xhrJSON(url,cb){
  var xhr=new XMLHttpRequest(),done=false;
  function finish(e,d){if(done)return;done=true;cb(e,d)}
  try{xhr.open('GET',url,true);xhr.timeout=16000;
- xhr.onreadystatechange=function(){if(xhr.readyState===4){if(xhr.status>=200&&xhr.status<300){try{finish(null,JSON.parse(xhr.responseText))}catch(e){finish(e,null)}}else finish(new Error('HTTP '+xhr.status),null)}};
- xhr.onerror=function(){finish(new Error('network'),null)};xhr.ontimeout=function(){finish(new Error('timeout'),null)};xhr.send(null)
+  xhr.onreadystatechange=function(){if(xhr.readyState===4){if(xhr.status>=200&&xhr.status<300){try{finish(null,JSON.parse(xhr.responseText))}catch(e){finish(e,null)}}else finish(new Error('HTTP '+xhr.status),null)}};
+  xhr.onerror=function(){finish(new Error('network'),null)};xhr.ontimeout=function(){finish(new Error('timeout'),null)};xhr.send(null)
  }catch(e){finish(e,null)}
 }
 function at(h,key,hour){for(var i=0;i<h.time.length;i++){if(h.time[i].substring(0,10)===key&&parseInt(h.time[i].substring(11,13),10)===hour)return i}return -1}
 function tinySlot(h,k,label){
- if(k<0)return '<div class="slot"><div class="slot-time">'+label+'</div><div class="slot-icon">--</div><div class="slot-temp">--°</div><div class="slot-pop">--%</div></div>';
- return '<div class="slot"><div class="slot-time">'+label+'</div><div class="slot-icon">'+icon(h.weather_code[k],h.is_day[k]===1)+'</div><div class="slot-temp">'+num(h.temperature_2m[k])+'°</div><div class="slot-pop">● '+rainNum(h.precipitation_probability[k])+'</div></div>';
+ if(k<0)return '<div class="slot"><div class="slot-time">'+label+'</div><div class="slot-icon">—</div><div class="slot-temp">--℃</div><div class="slot-pop">--%</div></div>';
+ return '<div class="slot"><div class="slot-time">'+label+'</div><div class="slot-icon">'+icon(h.weather_code[k],h.is_day[k]===1)+'</div><div class="slot-temp">'+num(h.temperature_2m[k])+'℃</div><div class="slot-pop">☂ '+rainNum(h.precipitation_probability[k])+'</div></div>';
 }
-function dailyPeriod(h,key,start,end){
- var indexes=[],i,hh,k,rainMax=-1,wet=-1,most=0,sum=0,count=0;
- for(i=0;i<h.time.length;i++){hh=parseInt(h.time[i].substring(11,13),10);if(h.time[i].substring(0,10)===key&&hh>=start&&hh<end)indexes.push(i)}
- for(i=0;i<indexes.length;i++){
-  k=indexes[i];if(typeof h.temperature_2m[k]==='number'){sum+=h.temperature_2m[k];count++}
-  if(typeof h.precipitation_probability[k]==='number'&&h.precipitation_probability[k]>rainMax)rainMax=h.precipitation_probability[k];
-  if(typeof h.precipitation[k]==='number'&&h.precipitation[k]>most){most=h.precipitation[k];wet=k}
+function isWet(code){return (code>=51&&code<=67)||(code>=80&&code<=82)||code>=95}
+function periodMax(h,key,start,end){
+ var prob=-1,selected=-1;for(var i=0;i<h.time.length;i++){
+  if(h.time[i].substring(0,10)!==key)continue;
+  var hour=parseInt(h.time[i].substring(11,13),10);if(hour<start||hour>=end)continue;
+  var p=h.precipitation_probability[i];if(typeof p==='number'&&p>prob)prob=p;
+  if(selected<0||Math.abs(hour-(start+end)/2)<Math.abs(parseInt(h.time[selected].substring(11,13),10)-(start+end)/2))selected=i;
  }
- k=indexes.length?indexes[Math.floor(indexes.length/2)]:-1;
- if(most>=0.2&&wet>=0)k=wet;
- return {temp:count?num(sum/count):'--',pop:rainMax>=0?rainMax:null,code:k>=0?h.weather_code[k]:-1,isday:k>=0?h.is_day[k]===1:true};
+ return prob<0?null:prob;
 }
-function periodHTML(p,label){return '<div class="period"><div class="period-title">'+label+'</div><div class="period-icon">'+icon(p.code,p.isday)+'</div><div class="period-temp">'+p.temp+'°</div><div class="period-pop">● '+rainNum(p.pop)+'</div></div>'}
-function onset(data){
- var h=data.hourly,now=jst(),beg=ymd(now)+'T'+pad(now.getUTCHours()),end=new Date(now.getTime()+48*3600000),limit=ymd(end)+'T'+pad(end.getUTCHours()),maxProb=-1;
+function rainOnset(h){
+ var n=jst(),current=ymd(n)+'T'+pad(n.getUTCHours()),end=new Date(n.getTime()+48*3600000),last=ymd(end)+'T'+pad(end.getUTCHours());
  for(var i=0;i<h.time.length;i++){
-  var ts=h.time[i].substring(0,13),mm=h.precipitation[i],pop=h.precipitation_probability[i],code=h.weather_code[i];
-  if(ts<beg||ts>limit)continue;
-  if(typeof pop==='number')maxProb=Math.max(maxProb,pop);
-  if((typeof mm==='number'&&mm>=0.2)||(typeof pop==='number'&&pop>=60&&((code>=51&&code<=67)||(code>=80&&code<=82)||(code>=95)))){
-   var day=ts.substring(0,10),when=day===ymd(now)?'今日':(day===ymd(tomorrowDate(now,1))?'明日':ts.substring(5,10).replace('-','/'));
-   var hh=parseInt(ts.substring(11,13),10),current=day===ymd(now)&&hh===now.getUTCHours();
-   return {main:current?'この時間帯に雨の可能性':when+' '+hh+'時ごろから',sub:'この時間帯の降水確率 '+rainNum(pop)};
+  var t=h.time[i].substring(0,13);if(t<current||t>last)continue;
+  var p=h.precipitation_probability[i],rain=h.precipitation[i],code=h.weather_code[i];
+  if((typeof rain==='number'&&rain>=0.2&&typeof p==='number'&&p>=40)||(typeof p==='number'&&p>=55&&isWet(code))){
+   var key=t.substring(0,10),what=key===ymd(n)?'今日':key===ymd(tomorrowDate(n,1))?'明日':key.substring(5).replace('-','/');
+   var hour=parseInt(t.substring(11,13),10);
+   return what+' '+hour+'時ごろから雨の可能性（'+rainNum(p)+'）';
   }
  }
- return {main:'48時間以内は雨の兆し少なめ',sub:'モデル予測 / 最大降水確率 '+rainNum(maxProb>=0?maxProb:null)};
+ return '今後48時間は雨の可能性が比較的低め';
 }
 function drawWeather(data){
- if(!data||!data.current||!data.hourly||!data.daily||!data.daily.time||!data.hourly.time)throw new Error('forecast incomplete');
- var c=data.current,h=data.hourly,d=data.daily,now=jst(),i,k,html='',today=ymd(now),next=ymd(tomorrowDate(now,1));
- weather=data;weatherDate=today;weatherUpdatedAt=new Date().getTime();
- setText('current-temp',num(c.temperature_2m));setText('weather-label',codeText(c.weather_code));id('weather-icon').innerHTML=icon(c.weather_code,c.is_day===1);
- setText('feels',num(c.apparent_temperature)+'°C');setText('humidity',rainNum(c.relative_humidity_2m));
- var windSpeed=typeof c.wind_speed_10m==='number'?Math.round(c.wind_speed_10m*10)/10:'--';
- var direction=['北','北東','東','南東','南','南西','西','北西'];var deg=c.wind_direction_10m,dir=typeof deg==='number'?direction[Math.round((deg%360)/45)%8]:'--';
- setText('wind',dir+' '+windSpeed+' m/s');
- var hours=now.getUTCHours(),first=Math.floor(hours/3)*3;
- for(i=first;i<=24;i+=3){k=at(h,i===24?next:today,i===24?0:i);html+=tinySlot(h,k,i===24?'24:00':pad(i)+':00')}
- id('today-slots').innerHTML=html||'<div class="slot">未取得</div>';
- id('today-slots').className='slot-row'+((Math.floor((24-first)/3)+1)>=6?' dense':'');
- setText('today-label','現在〜24時 / 3時間ごと');
- html='';for(i=0;i<=18;i+=6){k=at(h,next,i);html+=tinySlot(h,k,pad(i)+':00')}
+ if(!data||!data.current||!data.hourly||!data.daily||!data.daily.time||!data.hourly.time)throw new Error('incomplete');
+ weather=data;var c=data.current,h=data.hourly,d=data.daily,now=jst(),today=ymd(now),next=ymd(tomorrowDate(now,1));weatherDate=today;
+ setText('current-temp',num(c.temperature_2m));id('weather-icon').innerHTML=icon(c.weather_code,c.is_day===1);
+ setText('feels',num(c.apparent_temperature)+'℃');setText('humidity',rainNum(c.relative_humidity_2m));
+ var wind=typeof c.wind_speed_10m==='number'?Math.round(c.wind_speed_10m*10)/10:'--';
+ var compass=['北','北東','東','南東','南','南西','西','北西'];var deg=c.wind_direction_10m,dir=typeof deg==='number'?compass[Math.round((deg%360)/45)%8]:'--';
+ setText('wind',dir+' '+wind+'m/s');
+ function dailyIx(key){for(var i=0;i<d.time.length;i++)if(d.time[i]===key)return i;return -1}
+ var tIx=dailyIx(today),tomIx=dailyIx(next);
+ setText('today-hi-lo',tIx>=0?'最低 '+num(d.temperature_2m_min[tIx])+'℃ ／ 最高 '+num(d.temperature_2m_max[tIx])+'℃':'最高・最低 気温未取得');
+ if(tomIx>=0){setText('tomorrow-temp',num(d.temperature_2m_max[tomIx]));id('tomorrow-icon').innerHTML=icon(d.weather_code[tomIx],true);setText('tomorrow-hi-lo','最低 '+num(d.temperature_2m_min[tomIx])+'℃ ／ 最高 '+num(d.temperature_2m_max[tomIx])+'℃')}
+ var first=Math.floor(now.getUTCHours()/3)*3,html='',count=0;
+ for(var hour=first;hour<=24;hour+=3){var k=at(h,hour===24?next:today,hour===24?0:hour);html+=tinySlot(h,k,hour===24?'24時':hour+'時');count++}
+ id('today-slots').innerHTML=html;
+ id('today-slots').className='slot-row'+(count>5?' dense':'');
+ html='';for(var v=0;v<=18;v+=6){html+=tinySlot(h,at(h,next,v),v+'時')}
  id('tomorrow-slots').innerHTML=html;
- html='';for(i=2;i<=6;i++){
-  var key=ymd(tomorrowDate(now,i)),day=tomorrowDate(now,i),am=dailyPeriod(h,key,6,12),pm=dailyPeriod(h,key,12,18);
-  html+='<div class="forecast-day"><div class="forecast-date">'+(day.getUTCMonth()+1)+'/'+day.getUTCDate()+' ('+WEEK[day.getUTCDay()]+')</div><div class="periods">'+periodHTML(am,'午前')+periodHTML(pm,'午後')+'</div></div>';
+ html='';for(var offset=2;offset<=6;offset++){
+  var date=tomorrowDate(now,offset),key=ymd(date),di=dailyIx(key),dayCode=di>=0?d.weather_code[di]:-1,hi=di>=0?num(d.temperature_2m_max[di]):'--',lo=di>=0?num(d.temperature_2m_min[di]):'--';
+  var am=periodMax(h,key,0,12),pm=periodMax(h,key,12,24);
+  html+='<div class="five-row"><div class="day-date">'+(date.getUTCMonth()+1)+'/'+date.getUTCDate()+'<br><small>（'+WEEK[date.getUTCDay()]+'）</small></div>'+
+   '<div class="day-icon">'+icon(dayCode,true)+'</div><div class="day-temp">'+hi+'℃<br><span style="color:#67696c">'+lo+'℃</span></div>'+
+   '<div class="day-pop"><div><span>午前</span> <b>'+rainNum(am)+'</b></div><div><span>午後</span> <b>'+rainNum(pm)+'</b></div></div></div>';
  }
  id('forecast-days').innerHTML=html;
- var r=onset(data);setText('rain-onset',r.main);setText('rain-prob',r.sub);
- id('status').textContent='天気更新 '+hhmm(now)+' / Open-Meteo（モデル推定）｜ゴミ：伊丹市A2地区・休日は公式要確認｜ニュース：BBC日本語';
+ setText('rain-onset',rainOnset(h));
 }
-function weatherUpdate(){if(black())return;xhrJSON(WEATHER_URL,function(err,data){if(!err){try{drawWeather(data);return}catch(e){err=e}}
- if(!weather){setText('weather-label','天気未取得');id('today-slots').innerHTML='<div class="slot">取得できません</div>';id('tomorrow-slots').innerHTML='<div class="slot">取得できません</div>';id('forecast-days').innerHTML='<div class="forecast-day">予報未取得</div>';setText('rain-onset','予報取得に失敗しました')}
- id('status').textContent='天気取得失敗：'+(weather?'前回の予報を表示中':'通信と端末日時を確認')
- })}
-function renderNews(){
- var container=id('news-container');while(container.firstChild)container.removeChild(container.firstChild);
- if(!newsItems.length){var a=document.createElement('a');a.className='news-item';a.href='https://www.bbc.com/japanese';a.textContent='ニュース未取得 / BBCを開く';container.appendChild(a);return}
- for(var i=0;i<3;i++){
-  var item=newsItems[(newsOffset+i)%newsItems.length],link=document.createElement('a');link.className='news-item';link.href=item.url;link.target='_blank';link.rel='noopener';link.textContent=item.title;container.appendChild(link)
+function weatherUpdate(){if(black())return;xhrJSON(WEATHER_URL,function(err,data){
+ if(!err){try{drawWeather(data);return}catch(e){err=e}}
+ if(!weather){
+  setText('today-hi-lo','天気を取得できません');setText('tomorrow-hi-lo','天気を取得できません');
+  setText('rain-onset','情報を取得できません（通信をご確認ください）');
+  id('today-slots').innerHTML='<div class="slot">予報未取得</div>';id('tomorrow-slots').innerHTML='<div class="slot">予報未取得</div>';
+  id('forecast-days').innerHTML='<div class="five-row">予報未取得</div>';
  }
- newsOffset=(newsOffset+1)%newsItems.length;
-}
-function newsUpdate(){if(black())return;xhrJSON('news.json?t='+Math.floor(new Date().getTime()/1800000),function(err,data){
- if(err||!data||!data.items||!data.items.length){if(!newsItems.length)renderNews();return}
- var stamp=Date.parse(data.updated_at||'');if(!isFinite(stamp)||Math.abs(new Date().getTime()-stamp)>8*3600000){newsItems=[];renderNews();return}
- var results=[];for(var i=0;i<data.items.length;i++){var q=data.items[i];if(q&&typeof q.title==='string'&&q.title&&typeof q.url==='string'&&/^https:\/\/www\.bbc\.com\/japanese/.test(q.url))results.push(q)}
- if(results.length){newsItems=results;newsOffset=0;renderNews()}
  })}
-function newsRotate(){if(!black()&&newsItems.length>3)renderNews()}
+function tick(){
+ var n=jst();setText('date',(n.getUTCMonth()+1)+'月'+n.getUTCDate()+'日（'+WEEK[n.getUTCDay()]+'）');setText('anniversary',todayAnniversary(n));refreshClock(n);
+ var b=updateNight();if(weather&&weatherDate!==ymd(n)){weather=null;weatherUpdate()}
+ if(previousBlack&&!b&&!isNight())weatherUpdate();previousBlack=b;
+}
+function wakeNight(){if(!isNight())return;wakeUntil=new Date().getTime()+WAKE_MS;tick();weatherUpdate()}
+function blackNow(){wakeUntil=0;tick()}
 id('night-blank').onclick=wakeNight;id('night-close').onclick=blackNow;
 id('night-blank').onkeydown=function(e){e=e||window.event;if(e.keyCode===13||e.keyCode===32){if(e.preventDefault)e.preventDefault();wakeNight()}};
-initClockMode();fit();tick();weatherUpdate();newsUpdate();
+initClockMode();fit();tick();weatherUpdate();
 setInterval(function(){refreshClock(jst())},1000);
-setInterval(tick,15000);setInterval(weatherUpdate,30*60*1000);setInterval(newsUpdate,30*60*1000);setInterval(newsRotate,25000);
+setInterval(tick,15000);setInterval(weatherUpdate,30*60*1000);
 window.addEventListener('resize',fit,false);window.addEventListener('orientationchange',fit,false);
-if(document.addEventListener)document.addEventListener('visibilitychange',function(){if(!document.hidden){tick();weatherUpdate();newsUpdate();fit()}},false);
+if(document.addEventListener)document.addEventListener('visibilitychange',function(){if(!document.hidden){tick();fit();weatherUpdate()}},false);
 })();
 </script>
 </body>
