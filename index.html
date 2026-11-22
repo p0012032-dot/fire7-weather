@@ -295,10 +295,14 @@ function fit(){
  stage.style.webkitTransform='scale('+scale+')';stage.style.transform='scale('+scale+')';stage.style.webkitTransformOrigin='0 0';stage.style.transformOrigin='0 0';
  wrap.style.height=Math.ceil(562*scale)+'px';
 }
-function isNight(){return jst().getUTCHours()<5}
-function black(){return isNight()&&new Date().getTime()>=wakeUntil}
+// Japan Standard Time. Blackout: every day 00:00-04:59, plus Mon-Fri 08:00-16:59.
+function isQuietHours(){
+ var d=jst(),hour=d.getUTCHours(),day=d.getUTCDay();
+ return hour<5 || (day>=1 && day<=5 && hour>=8 && hour<17);
+}
+function black(){return isQuietHours()&&new Date().getTime()>=wakeUntil}
 function updateNight(){
- var b=black();document.body.className=b?'night':(isNight()?'night-preview':'');
+ var b=black();document.body.className=b?'night':(isQuietHours()?'night-preview':'');
  var meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.setAttribute('content',b?'#000':'#eeeeef');return b;
 }
 var CLOCK_MODES=['a','b','c','d'],clockIndex=0;
@@ -407,9 +411,9 @@ function weatherUpdate(){if(black())return;xhrJSON(WEATHER_URL,function(err,data
 function tick(){
  var n=jst();setText('date',(n.getUTCMonth()+1)+'月'+n.getUTCDate()+'日（'+WEEK[n.getUTCDay()]+'）');setText('anniversary',todayAnniversary(n));refreshClock(n);
  var b=updateNight();if(weather&&weatherDate!==ymd(n)){weather=null;weatherUpdate()}
- if(previousBlack&&!b&&!isNight())weatherUpdate();previousBlack=b;
+ if(previousBlack&&!b&&!isQuietHours())weatherUpdate();previousBlack=b;
 }
-function wakeNight(){if(!isNight())return;wakeUntil=new Date().getTime()+WAKE_MS;tick();weatherUpdate()}
+function wakeNight(){if(!isQuietHours())return;wakeUntil=new Date().getTime()+WAKE_MS;tick();weatherUpdate()}
 function blackNow(){wakeUntil=0;tick()}
 id('night-blank').onclick=wakeNight;id('night-close').onclick=blackNow;
 id('night-blank').onkeydown=function(e){e=e||window.event;if(e.keyCode===13||e.keyCode===32){if(e.preventDefault)e.preventDefault();wakeNight()}};
