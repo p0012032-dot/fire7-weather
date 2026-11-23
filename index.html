@@ -50,12 +50,13 @@ body{font-family:Arial,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif}
 .tomorrow .featured-main{height:90px}.tomorrow .featured-icon{height:94px}.tomorrow .featured-icon svg{height:98px;width:112px}.tomorrow .featured-temp{font-size:84px}
 .slot-row{display:-webkit-flex;display:flex;-webkit-flex:1;flex:1;-webkit-align-items:stretch;align-items:stretch;padding-top:0;min-width:0}
 .slot{-webkit-flex:1;flex:1;min-width:0;text-align:center;border-left:1px solid #cbcdd0;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center}
-.slot:first-child{border-left:0}.slot-time{font-size:23px;font-weight:700;line-height:31px;white-space:nowrap}
-.slot-icon{height:58px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center}
-.slot-icon svg{width:62px;height:56px}.slot-temp{font-size:30px;font-weight:700;line-height:34px;white-space:nowrap}
-.slot-pop{font-size:21px;line-height:24px;white-space:nowrap;color:#313337}
-.tomorrow .slot-time{font-size:22px;line-height:27px}.tomorrow .slot-icon{height:45px}.tomorrow .slot-icon svg{width:53px;height:49px}.tomorrow .slot-temp{font-size:28px;line-height:29px}.tomorrow .slot-pop{font-size:19px;line-height:24px}
-.slot-row.dense .slot-time{font-size:18px}.slot-row.dense .slot-icon{height:57px}.slot-row.dense .slot-icon svg{width:47px}.slot-row.dense .slot-temp{font-size:23px}.slot-row.dense .slot-pop{font-size:17px}
+.slot:first-child{border-left:0}.slot-time{font-size:23px;font-weight:700;line-height:27px;white-space:nowrap}
+.slot-icon{height:49px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center}
+.slot-icon svg{width:58px;height:48px}.slot-temp{font-size:29px;font-weight:700;line-height:30px;white-space:nowrap}
+.slot-pop{font-size:18px;line-height:20px;white-space:nowrap;color:#313337}
+.slot-mm{font-size:14px;line-height:17px;color:#6a6c70;white-space:nowrap;font-weight:600}
+.tomorrow .slot-time{font-size:21px;line-height:23px}.tomorrow .slot-icon{height:35px}.tomorrow .slot-icon svg{width:49px;height:37px}.tomorrow .slot-temp{font-size:27px;line-height:26px}.tomorrow .slot-pop{font-size:17px;line-height:18px}.tomorrow .slot-mm{font-size:13px;line-height:15px}
+.slot-row.dense .slot-time{font-size:18px}.slot-row.dense .slot-icon{height:49px}.slot-row.dense .slot-icon svg{width:44px}.slot-row.dense .slot-temp{font-size:23px;line-height:26px}.slot-row.dense .slot-pop{font-size:16px}.slot-row.dense .slot-mm{font-size:12px}
 .rain-strip{height:49px;position:relative;z-index:1;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;border:1px solid #d2d3d5;border-radius:24px;background:linear-gradient(160deg,rgba(255,255,255,.76),rgba(220,220,224,.65));margin-top:5px;padding:4px 13px;font-size:17px;overflow:hidden}
 .rain-label{border-radius:17px;background:linear-gradient(#64666a,#292b2e);color:white;font-weight:700;font-size:20px;padding:4px 17px;white-space:nowrap;margin-right:14px}
 .rain-text{font-size:19px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -70,7 +71,10 @@ body{font-family:Arial,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif}
 .day-icon{width:60px;-webkit-flex-shrink:0;flex-shrink:0;text-align:center;height:56px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center}
 .day-icon svg{width:55px;height:53px}.day-temp{width:60px;text-align:center;-webkit-flex-shrink:0;flex-shrink:0;font-size:16px;font-weight:700;line-height:22px}
 .day-pop{border-left:1px solid #c0c2c5;padding-left:8px;-webkit-flex:1;flex:1;line-height:27px;font-size:14px;text-align:right;white-space:nowrap;color:#26282b}
-.day-pop b{font-size:16px}.day-pop span{color:#595b5f}
+.day-pop b{font-size:14px}.day-pop span{color:#595b5f}
+.day-pop{line-height:17px;font-size:12px}
+.pop-period{height:35px;white-space:nowrap}
+.pop-mm{display:block;color:#77797c;font-weight:600;font-size:12px;line-height:16px;white-space:nowrap}
 #night-blank{display:none;position:fixed;left:0;right:0;top:0;bottom:0;z-index:999;background:#000;cursor:pointer}
 #night-close{display:none;position:fixed;bottom:14px;right:14px;z-index:1000;border-radius:8px;border:1px solid #777;background:#222;color:#fff;padding:10px 15px;font-size:14px}
 body.night #night-blank,body.night-preview #night-close{display:block}
@@ -82,6 +86,7 @@ body.night{background:#000}
  .info{display:none}.weather-panel,.weather-panel.tomorrow{height:auto;min-height:220px;margin-bottom:9px;padding:8px}.weather-title .subtitle{font-size:12px}.tag{font-size:19px;min-width:70px;line-height:27px;padding:3px 8px;margin-right:7px}
  .weather-content{height:auto;min-height:146px}.featured{width:34%;padding-right:2px}.featured-main{height:112px}.featured-icon{width:48%;height:77px}.featured-icon svg{width:100%;height:80px}.featured-temp{font-size:41px;letter-spacing:-2px}.featured-temp small{font-size:22px}
  .featured-foot{font-size:11px}.slot-row .slot-time{font-size:13px;line-height:23px}.slot-row .slot-icon{height:42px}.slot-row .slot-icon svg{width:34px}.slot-row .slot-temp{font-size:15px;line-height:22px}.slot-row .slot-pop{font-size:12px}
+ .slot-row .slot-mm{font-size:11px;line-height:13px}.tomorrow .slot-mm{font-size:10px;line-height:13px}
  .tomorrow .featured-main{height:103px}.tomorrow .featured-icon svg{height:70px}.tomorrow .featured-temp{font-size:39px}.tomorrow .slot-time{font-size:12px}.tomorrow .slot-icon{height:38px}.tomorrow .slot-temp{font-size:15px}.tomorrow .slot-pop{font-size:11px}
  .rain-label{font-size:14px;padding:4px 9px}.rain-text{font-size:12px}.forecast{height:auto;margin-top:8px}.forecast-head{height:68px}.five-row{height:88px}.day-date{width:19%}.day-icon{width:25%}.day-temp{width:22%}.day-pop{font-size:14px;text-align:center}
  #lower-space{display:none}
@@ -125,7 +130,7 @@ body.night{background:#000}
     </section>
   </main>
   <aside id="aside" class="card forecast" aria-label="明後日から5日間の天気">
-    <div class="forecast-head"><span class="tag">5日間の予報</span><div class="forecast-hint">明後日から5日間 ／ 午前・午後の降水確率</div></div>
+    <div class="forecast-head"><span class="tag">5日間の予報</span><div class="forecast-hint">明後日から5日間 ／ 降水確率・降水量</div></div>
     <div id="forecast-days"><div class="five-row">天気取得中…</div></div>
   </aside>
 </div></div></div>
@@ -263,7 +268,7 @@ var WEATHER_URL='https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitu
  '&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,wind_direction_10m,weather_code,is_day'+
  '&hourly=temperature_2m,precipitation_probability,precipitation,weather_code,is_day'+
  '&daily=temperature_2m_max,temperature_2m_min,weather_code'+
- '&forecast_days=7&wind_speed_unit=ms&timezone=Asia%2FTokyo';
+ '&forecast_days=8&wind_speed_unit=ms&timezone=Asia%2FTokyo';
 var weather=null,weatherDate='',wakeUntil=0,previousBlack=false,WAKE_MS=2*60*1000;
 function id(s){return document.getElementById(s)}
 function pad(v){return v<10?'0'+v:String(v)}
@@ -274,6 +279,25 @@ function hhmm(d){return pad(d.getUTCHours())+':'+pad(d.getUTCMinutes())}
 function setText(s,v){var n=id(s);if(n)n.textContent=String(v)}
 function num(n){return typeof n==='number'&&isFinite(n)?Math.round(n):'--'}
 function rainNum(n){return typeof n==='number'&&isFinite(n)?Math.round(n)+'%':'--%'}
+function mmNum(n){return typeof n==='number'&&isFinite(n)?(n<0.05?'0.0':n.toFixed(1))+'mm':'--mm'}
+// Open-Meteo hourly precipitation at HH:00 is the total for the PRECEDING hour.
+// For a forecast slot beginning at startHour, sum entries from startHour+1 through endHour inclusive.
+// That also handles 24:00 correctly (the next day's 0:00-3:00 block).
+function hourKey(key,hour){
+ var d=new Date(Date.UTC(parseInt(key.substring(0,4),10),parseInt(key.substring(5,7),10)-1,parseInt(key.substring(8,10),10),hour));
+ return ymd(d)+'T'+pad(d.getUTCHours());
+}
+function periodPrecip(h,key,startHour,hours){
+ if(!h||!h.time||!h.precipitation)return null;
+ var begin=hourKey(key,startHour),end=hourKey(key,startHour+hours),sum=0,n=0;
+ for(var i=0;i<h.time.length;i++){
+  var t=h.time[i].substring(0,13);
+  if(t<=begin||t>end)continue;
+  var v=h.precipitation[i];if(typeof v!=='number'||!isFinite(v))return null;
+  sum+=Math.max(0,v);n++;
+ }
+ return n===hours?Math.round(sum*10)/10:null;
+}
 function escapeText(s){return String(s).replace(/[&<>"']/g,function(a){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[a]})}
 function codeText(c){if(c===0)return '快晴';if(c<=2)return '晴れ';if(c===3)return 'くもり';if(c===45||c===48)return '霧';if(c>=51&&c<=67||c>=80&&c<=82)return '雨';if(c>=71&&c<=77||c>=85&&c<=86)return '雪';if(c>=95)return '雷雨';return '天気不明'}
 function icon(c,isDay){
@@ -344,19 +368,22 @@ function xhrJSON(url,cb){
  }catch(e){finish(e,null)}
 }
 function at(h,key,hour){for(var i=0;i<h.time.length;i++){if(h.time[i].substring(0,10)===key&&parseInt(h.time[i].substring(11,13),10)===hour)return i}return -1}
-function tinySlot(h,k,label){
- if(k<0)return '<div class="slot"><div class="slot-time">'+label+'</div><div class="slot-icon">—</div><div class="slot-temp">--℃</div><div class="slot-pop">--%</div></div>';
- return '<div class="slot"><div class="slot-time">'+label+'</div><div class="slot-icon">'+icon(h.weather_code[k],h.is_day[k]===1)+'</div><div class="slot-temp">'+num(h.temperature_2m[k])+'℃</div><div class="slot-pop">☂ '+rainNum(h.precipitation_probability[k])+'</div></div>';
+function tinySlot(h,k,label,key,startHour,hours){
+ if(k<0)return '<div class="slot"><div class="slot-time">'+label+'</div><div class="slot-icon">—</div><div class="slot-temp">--℃</div><div class="slot-pop">☂ --%</div><div class="slot-mm">--mm</div></div>';
+ var rain=periodPrecip(h,key,startHour,hours);
+ return '<div class="slot" title="降水確率は各時間帯の最大値、降水量は'+hours+'時間の合計予測値"><div class="slot-time">'+label+'</div><div class="slot-icon">'+icon(h.weather_code[k],h.is_day[k]===1)+'</div><div class="slot-temp">'+num(h.temperature_2m[k])+'℃</div><div class="slot-pop">☂ '+rainNum(periodMax(h,key,startHour,startHour+hours))+'</div><div class="slot-mm">'+mmNum(rain)+'</div></div>';
 }
 function isWet(code){return (code>=51&&code<=67)||(code>=80&&code<=82)||code>=95}
 function periodMax(h,key,start,end){
- var prob=-1,selected=-1;for(var i=0;i<h.time.length;i++){
-  if(h.time[i].substring(0,10)!==key)continue;
-  var hour=parseInt(h.time[i].substring(11,13),10);if(hour<start||hour>=end)continue;
-  var p=h.precipitation_probability[i];if(typeof p==='number'&&p>prob)prob=p;
-  if(selected<0||Math.abs(hour-(start+end)/2)<Math.abs(parseInt(h.time[selected].substring(11,13),10)-(start+end)/2))selected=i;
+ // Match the precipitation aggregation window (hourly values cover the preceding hour).
+ var a=hourKey(key,start),z=hourKey(key,end),max=-1;
+ for(var i=0;i<h.time.length;i++){
+  var t=h.time[i].substring(0,13);
+  if(t<=a||t>z)continue;
+  var v=h.precipitation_probability[i];
+  if(typeof v==='number'&&isFinite(v)&&v>max)max=v;
  }
- return prob<0?null:prob;
+ return max<0?null:max;
 }
 function rainOnset(h){
  var n=jst(),current=ymd(n)+'T'+pad(n.getUTCHours()),end=new Date(n.getTime()+48*3600000),last=ymd(end)+'T'+pad(end.getUTCHours());
@@ -384,17 +411,18 @@ function drawWeather(data){
  setText('today-hi-lo',tIx>=0?'最低 '+num(d.temperature_2m_min[tIx])+'℃ ／ 最高 '+num(d.temperature_2m_max[tIx])+'℃':'最高・最低 気温未取得');
  if(tomIx>=0){setText('tomorrow-temp',num(d.temperature_2m_max[tomIx]));id('tomorrow-icon').innerHTML=icon(d.weather_code[tomIx],true);setText('tomorrow-hi-lo','最低 '+num(d.temperature_2m_min[tomIx])+'℃ ／ 最高 '+num(d.temperature_2m_max[tomIx])+'℃')}
  var first=Math.floor(now.getUTCHours()/3)*3,html='',count=0;
- for(var hour=first;hour<=24;hour+=3){var k=at(h,hour===24?next:today,hour===24?0:hour);html+=tinySlot(h,k,hour===24?'24時':hour+'時');count++}
+ for(var hour=first;hour<=24;hour+=3){var k=at(h,hour===24?next:today,hour===24?0:hour);html+=tinySlot(h,k,hour===24?'24時':hour+'時',hour===24?next:today,hour===24?0:hour,3);count++}
  id('today-slots').innerHTML=html;
  id('today-slots').className='slot-row'+(count>5?' dense':'');
- html='';for(var v=0;v<=18;v+=6){html+=tinySlot(h,at(h,next,v),v+'時')}
+ html='';for(var v=0;v<=18;v+=6){html+=tinySlot(h,at(h,next,v),v+'時',next,v,6)}
  id('tomorrow-slots').innerHTML=html;
  html='';for(var offset=2;offset<=6;offset++){
   var date=tomorrowDate(now,offset),key=ymd(date),di=dailyIx(key),dayCode=di>=0?d.weather_code[di]:-1,hi=di>=0?num(d.temperature_2m_max[di]):'--',lo=di>=0?num(d.temperature_2m_min[di]):'--';
   var am=periodMax(h,key,0,12),pm=periodMax(h,key,12,24);
+  var amMm=periodPrecip(h,key,0,12),pmMm=periodPrecip(h,key,12,12);
   html+='<div class="five-row"><div class="day-date">'+(date.getUTCMonth()+1)+'/'+date.getUTCDate()+'<br><small>（'+WEEK[date.getUTCDay()]+'）</small></div>'+
    '<div class="day-icon">'+icon(dayCode,true)+'</div><div class="day-temp">'+hi+'℃<br><span style="color:#67696c">'+lo+'℃</span></div>'+
-   '<div class="day-pop"><div><span>午前</span> <b>'+rainNum(am)+'</b></div><div><span>午後</span> <b>'+rainNum(pm)+'</b></div></div></div>';
+   '<div class="day-pop"><div class="pop-period"><span>午前</span> <b>'+rainNum(am)+'</b><small class="pop-mm">'+mmNum(amMm)+'</small></div><div class="pop-period"><span>午後</span> <b>'+rainNum(pm)+'</b><small class="pop-mm">'+mmNum(pmMm)+'</small></div></div></div>';
  }
  id('forecast-days').innerHTML=html;
  setText('rain-onset',rainOnset(h));
