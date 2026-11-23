@@ -295,10 +295,10 @@ function fit(){
  stage.style.webkitTransform='scale('+scale+')';stage.style.transform='scale('+scale+')';stage.style.webkitTransformOrigin='0 0';stage.style.transformOrigin='0 0';
  wrap.style.height=Math.ceil(562*scale)+'px';
 }
-// Japan Standard Time. Blackout: every day 00:00-04:59, plus Mon-Fri 08:00-16:59.
+// Japan Standard Time. Blackout: daily 21:30-04:59, plus Mon-Fri 08:00-16:59.
 function isQuietHours(){
- var d=jst(),hour=d.getUTCHours(),day=d.getUTCDay();
- return hour<5 || (day>=1 && day<=5 && hour>=8 && hour<17);
+ var d=jst(),hour=d.getUTCHours(),minute=d.getUTCMinutes(),day=d.getUTCDay();
+ return hour<5 || hour>21 || (hour===21 && minute>=30) || (day>=1 && day<=5 && hour>=8 && hour<17);
 }
 function black(){return isQuietHours()&&new Date().getTime()>=wakeUntil}
 function updateNight(){
