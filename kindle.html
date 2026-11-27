@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>荒牧の天気 | Kindle 横置き</title>
+<style type="text/css">
+/* Kindle Basic 7 (2014) / legacy WebKit: no framework, no CSS grid. */
+*{-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{margin:0;padding:0;background:#fff;color:#101010;font-family:Arial,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;-webkit-text-size-adjust:100%;overflow:hidden}
+#rotated-viewport{position:relative;width:540px;height:660px;overflow:visible}
+#landscape{position:absolute;left:0;top:0;width:660px;height:540px;background:#fff;overflow:hidden;
+-webkit-transform-origin:0 0;transform-origin:0 0;
+-webkit-transform:translate(540px,0) rotate(90deg);transform:translate(540px,0) rotate(90deg)}
+.card{border:2px solid #444;border-radius:9px;background:#fff;overflow:hidden}
+#head{height:105px;border-bottom:3px solid #222;position:relative;margin:0 9px 8px 9px}
+#place{position:absolute;left:4px;top:10px;width:120px}
+#place .brand{font-size:22px;font-weight:bold;line-height:1.25}
+#date{font-size:13px;margin-top:6px}
+#clock{position:absolute;left:129px;top:7px;width:185px;text-align:center;font-size:53px;letter-spacing:-3px;font-weight:bold;line-height:1.4}
+#now{position:absolute;left:320px;top:8px;width:134px;text-align:center;border-left:1px solid #aaa;border-right:1px solid #aaa;height:86px}
+#now-icon{height:37px;line-height:37px}
+#now-icon svg{width:45px;height:42px;vertical-align:middle}
+#now-temp{font-size:36px;font-weight:bold;line-height:39px}
+#details{position:absolute;left:466px;top:6px;width:171px;font-size:15px;line-height:27px}
+#details b{font-weight:bold}
+#status{position:absolute;bottom:1px;left:5px;font-size:10px;color:#5b5b5b}
+#today,#tomorrow{height:159px;margin:0 9px 8px 9px;padding:5px 7px 6px}
+.section-head{height:31px;position:relative;border-bottom:1px solid #999;line-height:28px}
+.section-head .name{font-size:20px;font-weight:bold}
+.section-head .summary{font-size:13px;padding-left:9px;color:#333}
+.section-head .legend{position:absolute;right:2px;top:0;font-size:11px;color:#555}
+.slots{height:111px;white-space:nowrap;font-size:0}
+.slot{display:inline-block;vertical-align:top;white-space:normal;width:12.5%;height:109px;text-align:center;border-left:1px solid #d0d0d0;padding:3px 1px 1px;font-size:14px}
+.slot:first-child{border-left:0}
+.slot.past{color:#858585}
+.slot.past svg{opacity:.55}
+.slot-time{height:21px;font-weight:bold;font-size:17px}
+.slot-icon{height:33px;line-height:30px}
+.slot-icon svg{width:32px;height:32px}
+.slot-temp{font-weight:bold;font-size:20px;line-height:22px}
+.slot-pop{font-size:13px;line-height:17px}
+.slot-mm{font-size:12px;line-height:15px}
+#three{height:91px;margin:0 9px 6px;padding:4px 8px}
+#three .section-head{height:25px;line-height:23px}
+#three .section-head .name{font-size:18px}
+#three-days{font-size:0;height:53px}
+.three-day{display:inline-block;vertical-align:top;width:33.333%;height:52px;border-left:1px solid #aaa;padding:3px 6px;font-size:13px}
+.three-day:first-child{border-left:0}
+.three-date{font-weight:bold;font-size:15px;line-height:19px}
+.three-detail{font-size:13px;line-height:21px;white-space:nowrap}
+.three-detail b{font-size:14px}
+#foot{height:17px;margin:0 12px;font-size:12px;white-space:nowrap;overflow:hidden;color:#444}
+#foot b{color:#111}
+svg{display:inline-block}
+/* If transforms are unsupported, we intentionally keep a legible fallback. */
+</style>
+</head>
+<body>
+<div id="rotated-viewport"><div id="landscape">
+ <div id="head">
+  <div id="place"><div class="brand">荒牧の天気</div><div id="date">日付確認中</div></div>
+  <div id="clock">--:--</div>
+  <div id="now"><div id="now-icon">☁</div><div id="now-temp">--℃</div></div>
+  <div id="details"><div>体感 <b id="feels">--℃</b></div><div>湿度 <b id="humidity">--%</b></div><div>風 <b id="wind">-- m/s</b></div></div>
+  <div id="status">気象データを取得しています</div>
+ </div>
+ <div id="today" class="card"><div class="section-head"><span class="name">今日</span><span id="today-summary" class="summary">0〜23時・3時間ごと</span><span class="legend">☂確率=3h内最大 / 雨量=1h最大</span></div><div id="today-slots" class="slots"></div></div>
+ <div id="tomorrow" class="card"><div class="section-head"><span class="name">明日</span><span id="tomorrow-summary" class="summary">0〜23時・3時間ごと</span><span class="legend">☂確率=3h内最大 / 雨量=1h最大</span></div><div id="tomorrow-slots" class="slots"></div></div>
+ <div id="three" class="card"><div class="section-head"><span class="name">その後3日間</span><span class="summary">午前／午後の降水確率</span></div><div id="three-days"></div></div>
+ <div id="foot"><b>雨の見通し：</b><span id="rain-note">天気データを取得中</span>　<span id="updated"></span></div>
+</div></div>
+<script type="text/javascript">
+(function(){
+'use strict';
+var LAT=34.8107,LON=135.3825; // Fire 7版と同じ伊丹市荒牧付近の座標
+var WEEK=['日','月','火','水','木','金','土'];
+var URL='https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON+
+ '&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,wind_direction_10m,weather_code,is_day'+
+ '&hourly=temperature_2m,precipitation_probability,precipitation,weather_code,is_day'+
+ '&daily=temperature_2m_max,temperature_2m_min,weather_code'+
+ '&forecast_days=6&wind_speed_unit=ms&timezone=Asia%2FTokyo';
+function el(x){return document.getElementById(x)}
+function txt(x,t){var e=el(x);if(e)e.innerHTML=String(t)}
+function pad(n){return n<10?'0'+n:String(n)}
+function jst(){return new Date((new Date()).getTime()+9*3600000)}
+function ymd(d){return d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate())}
+function dateAdd(d,n){return new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate()+n))}
+function nn(v){return typeof v==='number'&&isFinite(v)?Math.round(v):'--'}
+function pct(v){return typeof v==='number'&&isFinite(v)?Math.round(v)+'%':'--%'}
+function mm(v){return typeof v==='number'&&isFinite(v)?(v<0.05?'0.0':v.toFixed(1)):'--'}
+function escape(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function icon(c,day){
+ var s='fill="none" stroke="#111" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"',a='<svg viewBox="0 0 64 64" aria-hidden="true">';
+ var cloud='<path '+s+' d="M14 48h34a10 10 0 0 0 0-20 17 17 0 0 0-31 3A9 9 0 0 0 14 48Z"/>';
+ if(c===0){return a+(day?'<circle '+s+' cx="32" cy="32" r="11"/><path '+s+' d="M32 4v9M32 51v9M4 32h9M51 32h9M12 12l7 7M45 45l7 7M52 12l-7 7M19 45l-7 7"/>':'<path '+s+' d="M44 11A22 22 0 1 0 54 45 22 22 0 0 1 44 11Z"/>')+'</svg>'}
+ if(c===1||c===2)return a+'<circle '+s+' cx="24" cy="20" r="10"/>'+cloud+'</svg>';
+ if((c>=51&&c<=67)||(c>=80&&c<=82)||(c>=95))return a+cloud+'<path '+s+' d="M20 53l-3 7M33 53l-3 7M46 53l-3 7"/></svg>';
+ if((c>=71&&c<=77)||(c>=85&&c<=86))return a+cloud+'<path '+s+' d="M19 55h8m-4-4v8M35 55h8m-4-4v8"/></svg>';
+ return a+cloud+'</svg>'
+}
+function hourKey(key,hour){var d=new Date(Date.UTC(parseInt(key.substring(0,4),10),parseInt(key.substring(5,7),10)-1,parseInt(key.substring(8,10),10),hour));return ymd(d)+'T'+pad(d.getUTCHours())}
+function findHour(h,key,hour){var t=hourKey(key,hour);for(var i=0;i<h.time.length;i++)if(h.time[i].substring(0,13)===t)return i;return -1}
+// Open-Meteo 1h precipitation at HH:00 represents the preceding hour. Interval (start, end].
+function periodMax(h,key,start,hours,field){
+ var from=hourKey(key,start),to=hourKey(key,start+hours),best=null,n=0;
+ for(var i=0;i<h.time.length;i++){
+  var t=h.time[i].substring(0,13);if(t<=from||t>to)continue;
+  var v=h[field][i];if(typeof v==='number'&&isFinite(v)){if(best===null||v>best)best=v;n++}
+ }
+ return n===hours?best:null
+}
+function codeText(c){if(c===0)return '快晴';if(c<=2)return '晴れ';if(c===3)return 'くもり';if(c===45||c===48)return '霧';if(c>=51&&c<=67||c>=80&&c<=82)return '雨';if(c>=71&&c<=77||c>=85&&c<=86)return '雪';if(c>=95)return '雷雨';return '天気不明'}
+function slot(h,key,hr,isPast){
+ var k=findHour(h,key,hr),html='<div class="slot'+(isPast?' past':'')+'"><div class="slot-time">'+hr+'時</div>';
+ if(k<0)return html+'<div class="slot-icon">--</div><div class="slot-temp">--℃</div><div class="slot-pop">☂--%</div><div class="slot-mm">--mm</div></div>';
+ var chance=periodMax(h,key,hr,3,'precipitation_probability'),precip=periodMax(h,key,hr,3,'precipitation');
+ html+='<div class="slot-icon">'+icon(h.weather_code[k],h.is_day[k]===1)+'</div>';
+ html+='<div class="slot-temp">'+nn(h.temperature_2m[k])+'℃</div>';
+ html+='<div class="slot-pop">☂'+pct(chance)+'</div>';
+ html+='<div class="slot-mm">'+mm(precip)+'mm</div></div>';
+ return html
+}
+function paint(d){
+ if(!d||!d.current||!d.hourly||!d.daily||!d.hourly.time||!d.daily.time)throw new Error('incomplete');
+ var now=jst(),today=ymd(now),next=ymd(dateAdd(now,1)),c=d.current,h=d.hourly,day=d.daily;
+ txt('now-icon',icon(c.weather_code,c.is_day===1));txt('now-temp',nn(c.temperature_2m)+'℃');
+ txt('feels',nn(c.apparent_temperature)+'℃');txt('humidity',pct(c.relative_humidity_2m));
+ var dirs=['北','北東','東','南東','南','南西','西','北西'];
+ var wd=typeof c.wind_direction_10m==='number'?dirs[Math.round(c.wind_direction_10m/45)%8]:'--';
+ txt('wind',wd+' '+(typeof c.wind_speed_10m==='number'?c.wind_speed_10m.toFixed(1):'--')+'m/s');
+ var a='',b='',hr,ix;
+ for(hr=0;hr<=21;hr+=3){a+=slot(h,today,hr,hr+3<=now.getUTCHours());b+=slot(h,next,hr,false)}
+ txt('today-slots',a);txt('tomorrow-slots',b);
+ function di(key){for(var j=0;j<day.time.length;j++)if(day.time[j]===key)return j;return -1}
+ var ti=di(today),ni=di(next);
+ txt('today-summary',ti>=0?'最高'+nn(day.temperature_2m_max[ti])+'℃ / 最低'+nn(day.temperature_2m_min[ti])+'℃':'0〜23時');
+ txt('tomorrow-summary',ni>=0?'最高'+nn(day.temperature_2m_max[ni])+'℃ / 最低'+nn(day.temperature_2m_min[ni])+'℃':'0〜23時');
+ var html='';
+ for(var n=2;n<=4;n++){
+  var date=dateAdd(now,n),key=ymd(date),p=periodMax(h,key,0,12,'precipitation_probability'),q=periodMax(h,key,12,12,'precipitation_probability'),ii=di(key);
+  html+='<div class="three-day"><div class="three-date">'+(date.getUTCMonth()+1)+'/'+date.getUTCDate()+'（'+WEEK[date.getUTCDay()]+'） '+(ii>=0?nn(day.temperature_2m_max[ii])+'°/'+nn(day.temperature_2m_min[ii])+'°':'')+'</div><div class="three-detail">午前 <b>'+pct(p)+'</b>　午後 <b>'+pct(q)+'</b></div></div>'
+ }
+ txt('three-days',html);
+ var rain='今後48時間に目立った雨予報なし',start=hourKey(today,now.getUTCHours()),end=hourKey(today,now.getUTCHours()+48);
+ for(var i=0;i<h.time.length;i++){
+  var t=h.time[i].substring(0,13),v=h.precipitation[i],chance=h.precipitation_probability[i];if(t<start||t>end)continue;
+  if(typeof v==='number'&&v>=0.2&&typeof chance==='number'&&chance>=40){
+   var which=t.substring(0,10)===today?'今日':t.substring(0,10)===next?'明日':t.substring(5).replace('-','/');
+   rain=which+' '+parseInt(t.substring(11,13),10)+'時ごろから雨の可能性';break
+  }
+ }
+ txt('rain-note',escape(rain));txt('updated','更新 '+pad(now.getUTCHours())+':'+pad(now.getUTCMinutes()));
+ txt('status','Open-Meteo / 30分ごと更新・1時間雨量の最大値');
+}
+function xhrJSON(url,cb){
+ var xhr=new XMLHttpRequest(),done=false;
+ function finish(err,data){if(done)return;done=true;cb(err,data)}
+ try{xhr.open('GET',url,true);xhr.timeout=18000;
+ xhr.onreadystatechange=function(){if(xhr.readyState===4){if(xhr.status>=200&&xhr.status<300){try{finish(null,JSON.parse(xhr.responseText))}catch(e){finish(e,null)}}else finish(new Error('HTTP '+xhr.status),null)}};
+ xhr.onerror=function(){finish(new Error('network'),null)};xhr.ontimeout=function(){finish(new Error('timeout'),null)};xhr.send(null)
+ }catch(e){finish(e,null)}
+}
+function refreshClock(){var d=jst();txt('clock',pad(d.getUTCHours())+':'+pad(d.getUTCMinutes()));txt('date',(d.getUTCMonth()+1)+'月'+d.getUTCDate()+'日（'+WEEK[d.getUTCDay()]+'）')}
+function fit(){
+ // Design coordinates are landscape 660x540; rotated into a portrait browser rectangle 540x660.
+ // Keep the Kindle's top browser toolbar untouched; fit the available document viewport.
+ var w=window.innerWidth||document.documentElement.clientWidth||600;
+ var h=window.innerHeight||document.documentElement.clientHeight||700;
+ var s=Math.min(1,(w-6)/540,(h-6)/660);if(!(s>0))s=1;
+ var box=el('rotated-viewport'),stage=el('landscape');
+ box.style.width=Math.floor(540*s)+'px';box.style.height=Math.floor(660*s)+'px';
+ var ccw=window.location.search.indexOf('turn=left')>=0;
+ var tr=ccw?'translate(0px,'+(660*s)+'px) rotate(-90deg) scale('+s+')':'translate('+(540*s)+'px,0px) rotate(90deg) scale('+s+')';
+ stage.style.webkitTransform=tr;stage.style.transform=tr;
+}
+function useDemo(){return window.location.search.indexOf('demo=1')>=0}
+function demoData(){
+ var now=jst(),d={current:{temperature_2m:13,apparent_temperature:12,relative_humidity_2m:68,wind_speed_10m:1.5,wind_direction_10m:45,weather_code:3,is_day:0},hourly:{time:[],temperature_2m:[],precipitation_probability:[],precipitation:[],weather_code:[],is_day:[]},daily:{time:[],temperature_2m_max:[],temperature_2m_min:[],weather_code:[]}};
+ for(var j=0;j<6;j++){var k=ymd(dateAdd(now,j));d.daily.time.push(k);d.daily.temperature_2m_max.push(17-j%3);d.daily.temperature_2m_min.push(7+j%3);d.daily.weather_code.push(3);
+  for(var i=0;i<24;i++){d.hourly.time.push(k+'T'+pad(i)+':00');d.hourly.temperature_2m.push(Math.round(10+5*Math.sin((i-5)*Math.PI/12)));var rain=j===1&&(i>=6&&i<=13);d.hourly.precipitation_probability.push(rain?70+i%3*10:10+i%4*5);d.hourly.precipitation.push(rain?0.3+(i%4)*0.5:0);d.hourly.weather_code.push(rain?61:3);d.hourly.is_day.push(i>=6&&i<17?1:0)}}return d
+}
+function update(){
+ if(useDemo()){paint(demoData());txt('status','表示テスト（仮データ）/ 右回転：?turn=left で逆回転');return}
+ xhrJSON(URL,function(err,data){if(err){txt('status','通信エラー：予報を取得できません');txt('rain-note','ネット接続・Kindleブラウザをご確認ください');return}
+ try{paint(data)}catch(e){txt('status','予報データを表示できません')}})
+}
+fit();refreshClock();update();
+setInterval(refreshClock,60000);setInterval(update,30*60*1000);
+if(window.addEventListener)window.addEventListener('resize',fit,false);
+})();
+</script>
+</body>
+</html>
