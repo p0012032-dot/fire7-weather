@@ -2,224 +2,221 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>荒牧の天気 | Kindle 時計重視版</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>荒牧の天気 | Kindle 横置き</title>
 <style type="text/css">
-/* 2014 Kindle Basic (WP63GW) / older WebKit. No Grid, no remote fonts. */
+/* Kindle Basic, 7th generation (2014). No external fonts, libraries, CSS Grid, or Flexbox. */
 *{-webkit-box-sizing:border-box;box-sizing:border-box}
-html,body{margin:0;padding:0;background:#fff;color:#111;overflow:hidden;font-family:Arial,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;-webkit-text-size-adjust:100%}
-#viewport{position:relative;width:540px;height:660px;overflow:visible}
-#screen{position:absolute;left:0;top:0;width:660px;height:540px;overflow:hidden;background:#fff;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:translate(540px,0) rotate(90deg);transform:translate(540px,0) rotate(90deg)}
-.card{border:2px solid #1f1f1f;border-radius:9px;background:#fff;overflow:hidden}
-#left{position:absolute;left:10px;top:10px;width:181px;height:520px;padding:13px 11px}
-#place{font-weight:bold;font-size:22px;line-height:27px;white-space:nowrap}
-#date{font-weight:bold;font-size:17px;line-height:25px;margin-top:4px}
-#clock{font-family:Arial,sans-serif;font-weight:bold;font-size:52px;line-height:68px;letter-spacing:-2px;white-space:nowrap;color:#000;margin:9px -2px 0}
-#big-now{height:93px;margin:13px -2px 0;white-space:nowrap;text-align:center}
-#current-icon{display:inline-block;vertical-align:middle;width:70px;height:67px;line-height:67px}
-#current-icon svg{width:66px;height:66px}
-#current-temp{display:inline-block;vertical-align:middle;font-size:49px;font-weight:bold;line-height:70px;letter-spacing:-2px}
-#stats{font-size:17px;font-weight:bold;line-height:34px;margin-top:1px}
-#rain-box{border-top:2px solid #111;margin-top:12px;padding-top:10px;font-size:17px;line-height:27px;font-weight:bold;overflow-wrap:break-word;word-break:normal}
-#left-bottom{position:absolute;bottom:12px;left:11px;right:9px;font-size:11px;font-weight:bold;color:#555;line-height:17px}
-#right{position:absolute;left:201px;top:10px;width:449px;height:520px}
-.panel{position:relative;width:449px}
-#today{height:205px}
-#tomorrow{height:198px;margin-top:9px}
-#three{height:99px;margin-top:9px}
-.panel-head{height:38px;border-bottom:2px solid #222;white-space:nowrap;position:relative;padding:2px 8px}
-.panel-head .tag{display:inline-block;background:#111;color:#fff;border-radius:5px;padding:3px 10px;font-size:20px;font-weight:bold;line-height:28px}
-.panel-head .subtitle{position:absolute;right:9px;top:9px;font-size:14px;font-weight:bold;white-space:nowrap}
-#today-slots,#tomorrow-slots{font-size:0;white-space:nowrap;padding:4px 5px 0;height:162px}
-#tomorrow-slots{height:156px}
-.slot{display:inline-block;vertical-align:top;text-align:center;height:150px;border-left:1px solid #777;white-space:normal;color:#161616}
-.slot:first-child{border-left:0}
-.slot.past{color:#555}
-.slot-hour{font-size:17px;font-weight:bold;line-height:22px;height:23px}
-.slot-icon{height:38px;line-height:38px}
-.slot-icon svg{width:37px;height:37px}
-.slot-temp{font-size:27px;font-weight:bold;line-height:32px}
-.slot-prob{font-size:17px;font-weight:bold;line-height:22px}
-.slot-mm{font-size:14px;font-weight:bold;line-height:19px}
-#today-slots.dense .slot-hour{font-size:15px}
-#today-slots.dense .slot-temp{font-size:23px}
-#today-slots.dense .slot-prob{font-size:15px}
-#today-slots.dense .slot-mm{font-size:12px}
-#today-slots.dense .slot-icon svg{width:29px;height:35px}
-#today-slots.dense .slot-icon{height:35px}
-#tomorrow .slot{height:148px}
-#tomorrow .slot-hour{font-size:20px;line-height:25px;height:27px}
-#tomorrow .slot-icon{height:47px}
-#tomorrow .slot-icon svg{width:47px;height:47px}
-#tomorrow .slot-temp{font-size:31px;line-height:35px}
-#tomorrow .slot-prob{font-size:19px;line-height:23px}
-#tomorrow .slot-mm{font-size:16px;line-height:20px}
-#three .panel-head{height:33px;padding-left:10px;line-height:29px;font-size:19px;font-weight:bold}
-#three-days{height:63px;white-space:nowrap;font-size:0;padding:1px 3px 0}
-.day{width:33.333%;display:inline-block;vertical-align:top;height:61px;text-align:center;border-left:1px solid #777;white-space:normal}
-.day:first-child{border-left:0}
-.day-date{font-size:17px;font-weight:bold;line-height:21px;white-space:nowrap}
-.day-prob{font-size:16px;font-weight:bold;line-height:22px;white-space:nowrap}
-.day-hi{font-size:12px;line-height:15px;color:#333;font-weight:bold}
-svg{display:inline-block;fill:none;stroke:#111;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+html,body{margin:0;padding:0;background:#fff;color:#101010;overflow:hidden;font-family:Arial,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;-webkit-text-size-adjust:100%}
+#portrait{width:540px;height:660px;position:relative;overflow:visible}
+#dashboard{position:absolute;top:0;left:0;width:660px;height:540px;overflow:hidden;background:#fff;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:translate(540px,0) rotate(90deg);transform:translate(540px,0) rotate(90deg)}
+.panel{position:absolute;border:2px solid #111;border-radius:11px;background:#fff;overflow:hidden}
+#left{left:6px;top:6px;width:321px;height:527px}
+#tomorrow{left:334px;top:6px;width:320px;height:287px}
+#three{left:334px;top:301px;width:320px;height:232px}
+#now-block{position:relative;height:131px;margin:0 10px;border-bottom:2px solid #333}
+#clock{position:absolute;top:14px;left:0;font:bold 53px/1 Arial,sans-serif;letter-spacing:-2px;color:#000;white-space:nowrap}
+#date{position:absolute;top:77px;left:4px;font-size:16px;font-weight:bold;white-space:nowrap}
+#today-current{position:absolute;top:12px;left:174px;width:127px;height:112px;border-left:2px solid #666;text-align:center;padding-left:4px}
+#current-icon{display:inline-block;vertical-align:middle;width:43px;height:52px;line-height:52px}
+#current-icon svg{width:42px;height:45px;vertical-align:middle}
+#current-temp{display:inline-block;vertical-align:middle;font:bold 37px/50px Arial,sans-serif;letter-spacing:-1px}
+#small-stats{font-weight:bold;text-align:center;font-size:13px;line-height:22px;margin-top:2px;white-space:nowrap}
+#rain-block{position:relative;margin:10px 9px 10px;height:63px;border-radius:9px;background:#ebebeb;overflow:hidden}
+#rain-icon{position:absolute;left:8px;top:8px;width:47px;height:47px;border-right:1px solid #888}
+#rain-icon svg{width:43px;height:43px}
+#rain-caption{position:absolute;left:66px;top:5px;font-weight:bold;font-size:14px;line-height:21px;white-space:nowrap}
+#rain-message{position:absolute;left:66px;top:26px;font-weight:bold;font-size:22px;line-height:30px;white-space:nowrap;letter-spacing:-.7px}
+#today-heading{height:38px;margin:0 9px;position:relative;border-bottom:2px solid #666;white-space:nowrap}
+.tag{display:inline-block;background:#111;color:#fff;border-radius:7px;font-weight:bold;padding:3px 10px;line-height:25px;font-size:20px}
+#today-subtitle{position:absolute;right:0;top:8px;font-size:13px;font-weight:bold}
+#today-rows{margin:0 10px;height:260px;overflow:hidden}
+.weather-row{width:100%;display:table;table-layout:fixed;border-bottom:1px solid #bbb;height:43px;color:#111}
+.weather-row:last-child{border-bottom:0}
+.weather-row.shade{background:#ededed;border-radius:6px}
+.weather-row.past{color:#777}
+.weather-row .rtime,.weather-row .ricon,.weather-row .rtemp,.weather-row .rpop{display:table-cell;vertical-align:middle;text-align:center;font-weight:bold;white-space:nowrap}
+.weather-row .rtime{width:52px;font-size:18px}
+.weather-row .ricon{width:54px}
+.weather-row .ricon svg{width:36px;height:35px;vertical-align:middle}
+.weather-row .rtemp{width:64px;font-size:23px}
+.weather-row .rpop{font-size:15px;text-align:right;padding-right:7px}
+.weather-row.dense .rtime{font-size:15px}
+.weather-row.dense .ricon svg{width:29px;height:29px}
+.weather-row.dense .rtemp{font-size:19px}
+.weather-row.dense .rpop{font-size:13px}
+#tom-head{height:48px;margin:0 9px;padding-top:7px;border-bottom:2px solid #555;white-space:nowrap;position:relative}
+#tom-date{position:absolute;right:0;top:9px;font-weight:bold;font-size:17px}
+#tomorrow-rows{height:231px;margin:0 9px;overflow:hidden}
+.tom-row{display:table;table-layout:fixed;width:100%;height:56px;border-bottom:1px solid #bbb}
+.tom-row:last-child{border-bottom:0}
+.tom-row.shade{background:#ededed;border-radius:7px}
+.tom-row .t-time,.tom-row .t-icon,.tom-row .t-temp,.tom-row .t-pop{display:table-cell;vertical-align:middle;text-align:center;font-weight:bold;white-space:nowrap}
+.tom-row .t-time{width:51px;font-size:20px}
+.tom-row .t-icon{width:56px}
+.tom-row .t-icon svg{height:39px;width:39px;vertical-align:middle}
+.tom-row .t-temp{width:82px;font-size:28px}
+.tom-row .t-pop{font-size:17px;text-align:right;padding-right:7px}
+#three-head{position:relative;height:45px;margin:0 8px;border-bottom:2px solid #777;padding-top:7px;white-space:nowrap}
+#three-head .tag{font-size:19px}
+#three-head .sub{position:absolute;right:0;top:14px;font-size:10px;font-weight:bold}
+#three-cols{font-size:0;white-space:nowrap;padding:5px 3px 0}
+.three-col{width:33.333%;height:174px;display:inline-block;vertical-align:top;text-align:center;border-left:1px solid #999;white-space:normal}
+.three-col:first-child{border-left:0}
+.day-label{font-size:15px;font-weight:bold;line-height:24px;white-space:nowrap}
+.day-icon{height:47px;line-height:45px}
+.day-icon svg{width:48px;height:44px;vertical-align:middle}
+.day-temps{font-size:18px;font-weight:bold;line-height:26px;white-space:nowrap}
+.day-am-pm{display:table;table-layout:fixed;width:95%;margin:4px auto 0;border-radius:7px;background:#ededed;padding:4px 1px}
+.day-am-pm .am,.day-am-pm .pm{display:table-cell;font-size:12px;font-weight:bold;line-height:18px;white-space:nowrap}
+.day-am-pm .am{border-right:1px solid #888}
+.day-am-pm b{font-size:15px}
+#notice{position:absolute;bottom:1px;right:9px;max-width:340px;text-align:right;font-size:9px;line-height:12px;color:#777}
+svg{display:inline-block;fill:none;stroke:#111;stroke-width:3.9;stroke-linecap:round;stroke-linejoin:round}
 </style>
 </head>
 <body>
-<div id="viewport"><div id="screen">
-  <div id="left" class="card">
-    <div id="place">荒牧の天気</div>
-    <div id="date">日付を確認中</div>
-    <div id="clock">--:--</div>
-    <div id="big-now"><span id="current-icon">☁</span><span id="current-temp">--℃</span></div>
-    <div id="stats">体感 <span id="feels">--℃</span><br>湿度 <span id="humidity">--%</span><br>風 <span id="wind">--m/s</span></div>
-    <div id="rain-box">☂ <span id="rain-note">天気を取得中</span></div>
-    <div id="left-bottom">Open-Meteo / 30分更新<br>雨量＝時間帯の最大1時間値<br><span id="last-update">データ取得待ち</span></div>
-  </div>
-  <div id="right">
-    <div id="today" class="panel card"><div class="panel-head"><span class="tag">今日</span><span class="subtitle" id="today-label">3時間ごと</span></div><div id="today-slots"></div></div>
-    <div id="tomorrow" class="panel card"><div class="panel-head"><span class="tag">明日</span><span class="subtitle">6時間ごと / 雨量は最大1時間値</span></div><div id="tomorrow-slots"></div></div>
-    <div id="three" class="panel card"><div class="panel-head">3日間予報 <span class="subtitle">午前 / 午後</span></div><div id="three-days"></div></div>
-  </div>
+<div id="portrait"><div id="dashboard">
+  <section id="left" class="panel">
+    <div id="now-block">
+      <div id="clock">--:--</div>
+      <div id="date">--月--日（-）</div>
+      <div id="today-current">
+        <span id="current-icon">☁</span><span id="current-temp">--℃</span>
+        <div id="small-stats">体感 <span id="feel">--℃</span>　湿度 <span id="humid">--%</span><div>風 <span id="wind">--m/s</span></div></div>
+      </div>
+    </div>
+    <div id="rain-block"><div id="rain-icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 30c4-18 16-24 26-24s22 6 26 24c-6-4-11-4-16 0-5-4-11-4-15 0-6-4-13-4-21 0Z"/><path d="M32 7v40c0 10-13 11-13 1"/><path d="M45 43l-3 5M52 43l-3 5"/></svg></div><div id="rain-caption">次の雨の見込み</div><div id="rain-message">予報取得中…</div></div>
+    <div id="today-heading"><span class="tag">今日の天気</span><span id="today-subtitle">3時間ごとの予報</span></div>
+    <div id="today-rows"></div>
+  </section>
+  <section id="tomorrow" class="panel">
+    <div id="tom-head"><span class="tag">明日の天気</span><span id="tom-date">日付取得中</span></div>
+    <div id="tomorrow-rows"></div>
+  </section>
+  <section id="three" class="panel">
+    <div id="three-head"><span class="tag">3日間の天気</span><span class="sub">午前・午後の最大降水確率</span></div>
+    <div id="three-cols"></div>
+  </section>
+  <div id="notice"></div>
 </div></div>
 <script type="text/javascript">
 (function(){
 'use strict';
-// Same approximate Aramaki location as the previous Fire 7 / Kindle dashboard.
+// Same location as the existing Aramaki weather dashboard.
 var LAT=34.8107,LON=135.3825;
-var WEEK=['日','月','火','水','木','金','土'];
-var URL='https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON+
+var W=['日','月','火','水','木','金','土'];
+var API='https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON+
  '&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,wind_direction_10m,weather_code,is_day'+
  '&hourly=temperature_2m,precipitation_probability,precipitation,weather_code,is_day'+
  '&daily=temperature_2m_max,temperature_2m_min,weather_code'+
  '&timezone=Asia%2FTokyo&forecast_days=6&wind_speed_unit=ms';
-function el(id){return document.getElementById(id)}
-function put(id,val){var e=el(id);if(e)e.innerHTML=String(val)}
+var lastData=null,lastWindow='';
+function E(id){return document.getElementById(id)}
+function set(id,v){var e=E(id);if(e&&e.innerHTML!==String(v))e.innerHTML=String(v)}
 function pad(n){return n<10?'0'+n:String(n)}
 function jst(){return new Date((new Date()).getTime()+9*3600000)}
-function dayKey(d){return d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate())}
-function addDays(d,n){return new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate()+n))}
-function round(v){return typeof v==='number'&&isFinite(v)?Math.round(v):'--'}
-function prob(v){return typeof v==='number'&&isFinite(v)?Math.round(v)+'%':'--%'}
-function amount(v){return typeof v==='number'&&isFinite(v)?(v<0.05?'0.0':v.toFixed(1)):'--'}
-function icon(c,day){
- var a='<svg viewBox="0 0 64 64" aria-hidden="true">',cl='<path d="M14 48h34a10 10 0 0 0 0-20 17 17 0 0 0-31 3A9 9 0 0 0 14 48Z"/>';
- if(c===0)return a+(day?'<circle cx="32" cy="32" r="11"/><path d="M32 4v9M32 51v9M4 32h9M51 32h9M12 12l7 7M45 45l7 7M52 12l-7 7M19 45l-7 7"/>':'<path d="M44 11A22 22 0 1 0 54 45 22 22 0 0 1 44 11Z"/>')+'</svg>';
- if(c===1||c===2)return a+'<circle cx="24" cy="20" r="10"/>'+cl+'</svg>';
- if((c>=51&&c<=67)||(c>=80&&c<=82)||c>=95)return a+cl+'<path d="M20 53l-3 7M33 53l-3 7M46 53l-3 7"/></svg>';
- if((c>=71&&c<=77)||(c>=85&&c<=86))return a+cl+'<path d="M19 55h8m-4-4v8M35 55h8m-4-4v8"/></svg>';
- return a+cl+'</svg>';
+function key(d){return d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate())}
+function plus(d,n){return new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate()+n))}
+function hourKey(day,h){var d=new Date(Date.UTC(parseInt(day.substring(0,4),10),parseInt(day.substring(5,7),10)-1,parseInt(day.substring(8,10),10),h));return key(d)+'T'+pad(d.getUTCHours())}
+function find(h,stamp){for(var i=0;i<h.time.length;i++)if(h.time[i].substring(0,13)===stamp)return i;return -1}
+function num(n){return typeof n==='number'&&isFinite(n)?Math.round(n):'--'}
+function pc(n){return typeof n==='number'&&isFinite(n)?Math.round(n)+'%':'--%'}
+function icon(code,isDay){
+ var a='<svg viewBox="0 0 64 64" aria-hidden="true">',c='<path d="M14 48h34a10 10 0 0 0 0-20 17 17 0 0 0-31 3A9 9 0 0 0 14 48Z"/>';
+ if(code===0)return a+(isDay?'<circle cx="32" cy="32" r="11"/><path d="M32 4v9M32 51v9M4 32h9M51 32h9M12 12l7 7M45 45l7 7M52 12l-7 7M19 45l-7 7"/>':'<path d="M44 11A22 22 0 1 0 54 45 22 22 0 0 1 44 11Z"/>')+'</svg>';
+ if(code===1||code===2)return a+'<circle cx="24" cy="20" r="10"/>'+c+'</svg>';
+ if((code>=51&&code<=67)||(code>=80&&code<=82)||code>=95)return a+c+'<path d="M19 53l-3 7M32 53l-3 7M45 53l-3 7"/></svg>';
+ if((code>=71&&code<=77)||(code>=85&&code<=86))return a+c+'<path d="M19 55h8m-4-4v8M35 55h8m-4-4v8"/></svg>';
+ return a+c+'</svg>';
 }
-// Open-Meteo hourly precipitation is the accumulation for the previous hour;
-// (start, start+hours] captures exactly the requested period.
-function keyHour(day,hour){var d=new Date(Date.UTC(parseInt(day.substring(0,4),10),parseInt(day.substring(5,7),10)-1,parseInt(day.substring(8,10),10),hour));return dayKey(d)+'T'+pad(d.getUTCHours())}
-function indexHour(h,day,hour){var stamp=keyHour(day,hour);for(var i=0;i<h.time.length;i++)if(h.time[i].substring(0,13)===stamp)return i;return -1}
-function maxIn(h,day,start,count,field){
- if(!h||!h.time||!h[field])return null;
- var from=keyHour(day,start),to=keyHour(day,start+count),best=null,found=0;
- for(var i=0;i<h.time.length;i++){
-  var t=h.time[i].substring(0,13);if(t<=from||t>to)continue;
-  var v=h[field][i];if(typeof v==='number'&&isFinite(v)){if(best===null||v>best)best=v;found++}
- }
- return found===count?best:null;
-}
-function slot(h,day,hour,duration,past){
- var k=indexHour(h,day,hour),code=k>=0?h.weather_code[k]:null;
- var html='<div class="slot'+(past?' past':'')+'"><div class="slot-hour">'+hour+'時</div>';
- html+='<div class="slot-icon">'+(k<0?'--':icon(code,h.is_day[k]===1))+'</div>';
- html+='<div class="slot-temp">'+(k<0?'--':round(h.temperature_2m[k]))+'°</div>';
- html+='<div class="slot-prob">☂'+prob(maxIn(h,day,hour,duration,'precipitation_probability'))+'</div>';
- html+='<div class="slot-mm">'+amount(maxIn(h,day,hour,duration,'precipitation'))+'mm</div></div>';
- return html;
-}
-function dailyIndex(d,key){for(var i=0;i<d.time.length;i++)if(d.time[i]===key)return i;return -1}
-function rainText(c){if(c===0)return '晴れ';if(c<=2)return '晴れ時々曇り';if(c===3)return '曇り';if(c>=51&&c<=67||c>=80&&c<=82)return '雨';if(c>=71&&c<=77||c>=85&&c<=86)return '雪';if(c>=95)return '雷雨';return '天気不明'}
+function hourInfo(h,day,t){var i=find(h,hourKey(day,t));if(i<0)return null;return {temp:h.temperature_2m[i],code:h.weather_code[i],isDay:h.is_day[i]===1}}
+// Probability: max of 1-hour forecasts starting at hour t.
+function maxPop(h,day,start,length){var v=null;for(var i=0;i<length;i++){var k=find(h,hourKey(day,start+i));if(k<0)return null;var n=h.precipitation_probability[k];if(typeof n==='number'&&isFinite(n)&&(v===null||n>v))v=n;}return v}
+function fmtDay(date){return (date.getUTCMonth()+1)+'/'+date.getUTCDate()+'（'+W[date.getUTCDay()]+'）'}
 function render(data){
- if(!data||!data.current||!data.hourly||!data.daily||!data.hourly.time||!data.daily.time)throw new Error('weather data incomplete');
- var now=jst(),today=dayKey(now),tomorrow=dayKey(addDays(now,1)),c=data.current,h=data.hourly,d=data.daily;
- put('current-icon',icon(c.weather_code,c.is_day===1));put('current-temp',round(c.temperature_2m)+'°');
- put('feels',round(c.apparent_temperature)+'℃');put('humidity',prob(c.relative_humidity_2m));
+ if(!data||!data.current||!data.hourly||!data.daily||!data.hourly.time)throw new Error('天気データが不完全');
+ var now=jst(),today=key(now),tom=plus(now,1),tomorrow=key(tom),h=data.hourly,d=data.daily,c=data.current;
+ set('current-icon',icon(c.weather_code,c.is_day===1));set('current-temp',num(c.temperature_2m)+'℃');
+ set('feel',num(c.apparent_temperature)+'℃');set('humid',pc(c.relative_humidity_2m));
  var dirs=['北','北東','東','南東','南','南西','西','北西'];
  var wd=typeof c.wind_direction_10m==='number'?dirs[Math.round(c.wind_direction_10m/45)%8]:'--';
- put('wind',wd+' '+(typeof c.wind_speed_10m==='number'?c.wind_speed_10m.toFixed(1):'--')+'m/s');
- // The chosen B layout focuses on upcoming hours. Show up to 8 on very early mornings;
- // after 06:00 it uses the six large 3-hour columns from the approved design.
- var start=now.getUTCHours()<6?Math.floor(now.getUTCHours()/3)*3:6;
- var count=(24-start)/3,items='',i,hr;
- for(hr=start;hr<=21;hr+=3)items+=slot(h,today,hr,3,hr+3<=now.getUTCHours());
- var tSlots=el('today-slots');tSlots.className=count>6?'dense':'';tSlots.innerHTML=items;
- var width=(100/count)+'%';for(i=0;i<tSlots.children.length;i++)tSlots.children[i].style.width=width;
- put('today-label','3時間ごと ・ '+start+'〜24時');
- items='';for(hr=0;hr<=18;hr+=6)items+=slot(h,tomorrow,hr,6,false);
- var nSlots=el('tomorrow-slots');nSlots.innerHTML=items;
- for(i=0;i<nSlots.children.length;i++)nSlots.children[i].style.width='25%';
- items='';for(i=2;i<=4;i++){
-  var dt=addDays(now,i),key=dayKey(dt),di=dailyIndex(d,key),am=maxIn(h,key,0,12,'precipitation_probability'),pm=maxIn(h,key,12,12,'precipitation_probability');
-  var hi=di<0?'--':round(d.temperature_2m_max[di]),lo=di<0?'--':round(d.temperature_2m_min[di]);
-  items+='<div class="day"><div class="day-date">'+WEEK[dt.getUTCDay()]+' '+(dt.getUTCMonth()+1)+'/'+dt.getUTCDate()+'</div>'+
-  '<div class="day-prob">☂'+prob(am)+' / '+prob(pm)+'</div><div class="day-hi">最高'+hi+'° / 最低'+lo+'°</div></div>';
+ set('wind',wd+' '+(typeof c.wind_speed_10m==='number'?c.wind_speed_10m.toFixed(1):'--')+'m/s');
+ set('tom-date',fmtDay(tom));
+ // Today: current 3-hour block onward; when there are eight blocks, reduce their row height slightly.
+ var start=Math.floor(now.getUTCHours()/3)*3,rows='',count=(24-start)/3;
+ for(var t=start;t<24;t+=3){var x=hourInfo(h,today,t),p=maxPop(h,today,t,3);
+  rows+='<div class="weather-row'+(((t-start)/3)%2?' shade':'')+(count>=8?' dense':'')+'" style="height:'+(count>6?32:count===6?43:count===5?48:count===4?57:count===3?73:count===2?95:220)+'px">'+
+   '<span class="rtime">'+t+'時</span><span class="ricon">'+(x?icon(x.code,x.isDay):'--')+'</span><span class="rtemp">'+(x?num(x.temp):'--')+'℃</span><span class="rpop">降水 '+pc(p)+'</span></div>';
  }
- put('three-days',items);
- var firstRain=null,from=keyHour(today,now.getUTCHours()),to=keyHour(today,now.getUTCHours()+48);
- for(i=0;i<h.time.length;i++){
-  var t=h.time[i].substring(0,13),v=h.precipitation[i],pr=h.precipitation_probability[i];
-  if(t<from||t>to)continue;
-  if(typeof v==='number'&&v>=0.2&&typeof pr==='number'&&pr>=40){firstRain=t;break}
+ set('today-rows',rows);set('today-subtitle','3時間ごとの予報');
+ rows='';for(t=0;t<24;t+=6){x=hourInfo(h,tomorrow,t);p=maxPop(h,tomorrow,t,6);
+  rows+='<div class="tom-row'+(t%12===0?' shade':'')+'"><span class="t-time">'+t+'時</span><span class="t-icon">'+(x?icon(x.code,x.isDay):'--')+'</span><span class="t-temp">'+(x?num(x.temp):'--')+'℃</span><span class="t-pop">降水 '+pc(p)+'</span></div>';
  }
- if(firstRain){var label=firstRain.substring(0,10)===today?'今日':firstRain.substring(0,10)===tomorrow?'明日':firstRain.substring(5,10).replace('-','/');
-  put('rain-note',label+ ' '+parseInt(firstRain.substring(11,13),10)+'時ごろ<br>雨の可能性');
- }else put('rain-note','今後48時間<br>まとまった雨は少なめ');
- put('last-update','更新 '+pad(now.getUTCHours())+':'+pad(now.getUTCMinutes()));
+ set('tomorrow-rows',rows);
+ rows='';for(var n=2;n<=4;n++){var day=plus(now,n),daystr=key(day),idx=-1;
+  for(var j=0;j<d.time.length;j++)if(d.time[j]===daystr){idx=j;break}
+  var hi=idx<0?'--':num(d.temperature_2m_max[idx]),lo=idx<0?'--':num(d.temperature_2m_min[idx]);
+  var code=idx>=0?d.weather_code[idx]:-1;
+  rows+='<div class="three-col"><div class="day-label">'+fmtDay(day)+'</div><div class="day-icon">'+icon(code,true)+'</div><div class="day-temps">'+hi+'℃ / '+lo+'℃</div><div class="day-am-pm"><div class="am">午前<br><b>'+pc(maxPop(h,daystr,0,12))+'</b></div><div class="pm">午後<br><b>'+pc(maxPop(h,daystr,12,12))+'</b></div></div></div>';
+ }
+ set('three-cols',rows);
+ // Next rain: Open-Meteo hourly precipitation at HH:00 is rain accumulated over the preceding hour.
+ // To avoid precision claims, show the approximate START of the first forecast rainy hour.
+ var fromHour=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate(),now.getUTCHours()+1));
+ var fromStamp=key(fromHour)+'T'+pad(fromHour.getUTCHours());
+ var first=null;
+ for(j=0;j<h.time.length;j++){
+  var stamp=h.time[j].substring(0,13),r=h.precipitation[j];
+  if(stamp<fromStamp)continue;
+  if(typeof r!=='number'||!isFinite(r))continue;
+  if(r>=0.2&&typeof h.precipitation_probability[j]==='number'&&h.precipitation_probability[j]>=40){first=h.time[j];break}
+ }
+ if(first){var dt=new Date(Date.UTC(parseInt(first.substring(0,4),10),parseInt(first.substring(5,7),10)-1,parseInt(first.substring(8,10),10),parseInt(first.substring(11,13),10)-1));
+  var day=key(dt),lbl=day===today?'今日':day===tomorrow?'明日':(dt.getUTCMonth()+1)+'/'+dt.getUTCDate();
+  set('rain-message',lbl+' '+dt.getUTCHours()+'時ごろから');
+ }else set('rain-message','当面、雨の予報なし');
+ lastData=data;lastWindow=today+'-'+start;
 }
-function fetchWeather(done){
- var xhr=new XMLHttpRequest(),finished=false;
- function finish(e,obj){if(finished)return;finished=true;done(e,obj)}
- try{
-  xhr.open('GET',URL,true);xhr.timeout=18000;
-  xhr.onreadystatechange=function(){if(xhr.readyState!==4)return;if(xhr.status>=200&&xhr.status<300){try{finish(null,JSON.parse(xhr.responseText))}catch(e){finish(e,null)}}else finish(new Error('HTTP '+xhr.status),null)};
-  xhr.onerror=function(){finish(new Error('network'),null)};
-  xhr.ontimeout=function(){finish(new Error('timeout'),null)};
-  xhr.send(null);
- }catch(e){finish(e,null)}
+function tick(){
+ var d=jst(),time=pad(d.getUTCHours())+':'+pad(d.getUTCMinutes()),date=(d.getUTCMonth()+1)+'月'+d.getUTCDate()+'日（'+W[d.getUTCDay()]+'）';
+ set('clock',time);set('date',date);
+ var windowKey=key(d)+'-'+Math.floor(d.getUTCHours()/3)*3;
+ if(lastData&&lastWindow!==windowKey)try{render(lastData)}catch(e){}
 }
-function clock(){var dt=jst(),value=pad(dt.getUTCHours())+':'+pad(dt.getUTCMinutes()),date=(dt.getUTCMonth()+1)+'月'+dt.getUTCDate()+'日（'+WEEK[dt.getUTCDay()]+'）';
- // Do not redraw the E-Ink DOM until text actually changes.
- if(el('clock').innerHTML!==value)put('clock',value);
- if(el('date').innerHTML!==date)put('date',date);
+function request(cb){
+ var r=new XMLHttpRequest(),finished=false;
+ function done(error,object){if(finished)return;finished=true;cb(error,object)}
+ try{r.open('GET',API,true);r.timeout=18000;
+ r.onreadystatechange=function(){if(r.readyState!==4)return;if(r.status>=200&&r.status<300){try{done(null,JSON.parse(r.responseText))}catch(e){done(e,null)}}else done(new Error('HTTP '+r.status),null)};
+ r.onerror=function(){done(new Error('network'),null)};r.ontimeout=function(){done(new Error('timeout'),null)};r.send(null)
+ }catch(e){done(e,null)}
+}
+function demo(){return window.location.search.indexOf('demo=1')>=0}
+function demoData(){var d={current:{temperature_2m:14,apparent_temperature:13,relative_humidity_2m:95,wind_speed_10m:0.4,wind_direction_10m:0,weather_code:1,is_day:1},hourly:{time:[],temperature_2m:[],precipitation_probability:[],precipitation:[],weather_code:[],is_day:[]},daily:{time:[],temperature_2m_max:[],temperature_2m_min:[],weather_code:[]}},today=jst();
+ for(var n=0;n<6;n++){var day=plus(today,n),dy=key(day);d.daily.time.push(dy);d.daily.temperature_2m_max.push(18-n);d.daily.temperature_2m_min.push(8-n%3);d.daily.weather_code.push(n===3?61:n===4?1:3);
+  for(var h=0;h<24;h++){d.hourly.time.push(dy+'T'+pad(h)+':00');d.hourly.temperature_2m.push(Math.round(8+10*Math.max(0,Math.sin((h-6)*Math.PI/18))));
+   var wet=(n===0&&h>=15&&h<=18)||(n===3&&h>=7&&h<=15);
+   d.hourly.precipitation_probability.push(wet?60:((h%4===0)?10:0));d.hourly.precipitation.push(wet?.4:0);d.hourly.weather_code.push(wet?61:h>=6&&h<17?(h%3?3:1):0);d.hourly.is_day.push(h>=6&&h<17?1:0)
+  }
+ }return d}
+function update(){
+ if(demo()){try{render(demoData());set('notice','')}catch(e){set('notice','デモ表示エラー')}return}
+ request(function(err,data){if(err){set('notice','通信エラー・再読み込み');return}try{render(data);set('notice','')}catch(e){set('notice','表示エラー・再読み込み')}})
 }
 function fit(){
- var w=window.innerWidth||document.documentElement.clientWidth||600;
- var h=window.innerHeight||document.documentElement.clientHeight||710;
- var scale=Math.min(1.12,(w-14)/540,(h-20)/660);if(!(scale>0))scale=1;
- var box=el('viewport'),s=el('screen');
- box.style.width=Math.floor(540*scale)+'px';box.style.height=Math.floor(660*scale)+'px';
- box.style.marginLeft=Math.max(0,Math.floor((w-540*scale)/2))+'px';
- box.style.marginTop=Math.max(0,Math.floor((h-660*scale)/2))+'px';
- var leftTurn=window.location.search.indexOf('turn=left')>=0;
- var transform=leftTurn?'translate(0px,'+(660*scale)+'px) rotate(-90deg) scale('+scale+')':'translate('+(540*scale)+'px,0px) rotate(90deg) scale('+scale+')';
- s.style.webkitTransform=transform;s.style.transform=transform;
+ // Render a 660x540 landscape page rotated inside the Kindle's portrait web viewport.
+ var w=window.innerWidth||document.documentElement.clientWidth||600,h=window.innerHeight||document.documentElement.clientHeight||700;
+ var s=Math.min(1.14,(w-12)/540,(h-16)/660);if(!(s>0))s=1;
+ var box=E('portrait'),stage=E('dashboard');
+ box.style.width=Math.floor(540*s)+'px';box.style.height=Math.floor(660*s)+'px';
+ box.style.marginLeft=Math.max(0,Math.floor((w-540*s)/2))+'px';box.style.marginTop=Math.max(0,Math.floor((h-660*s)/2))+'px';
+ var ccw=window.location.search.indexOf('turn=left')>=0;
+ var tr=ccw?'translate(0px,'+(660*s)+'px) rotate(-90deg) scale('+s+')':'translate('+(540*s)+'px,0px) rotate(90deg) scale('+s+')';
+ stage.style.webkitTransform=tr;stage.style.transform=tr;
 }
-function demoMode(){return window.location.search.indexOf('demo=1')>=0}
-function demoData(){
- var n=jst(),x={current:{temperature_2m:11,apparent_temperature:10,relative_humidity_2m:65,wind_speed_10m:2,wind_direction_10m:45,weather_code:3,is_day:1},hourly:{time:[],temperature_2m:[],precipitation_probability:[],precipitation:[],weather_code:[],is_day:[]},daily:{time:[],temperature_2m_max:[],temperature_2m_min:[],weather_code:[]}};
- for(var d=0;d<6;d++){
-  var key=dayKey(addDays(n,d));x.daily.time.push(key);x.daily.temperature_2m_max.push(15+d%3);x.daily.temperature_2m_min.push(6+d%3);x.daily.weather_code.push(3);
-  for(var h=0;h<24;h++){
-   x.hourly.time.push(key+'T'+pad(h)+':00');x.hourly.temperature_2m.push(Math.round(9+6*Math.sin((h-5)*Math.PI/12)));
-   var rainy=(d===0&&h>=17)||(d===1&&h>=2&&h<=6)||(d===3&&h>=8&&h<=19);
-   x.hourly.precipitation_probability.push(rainy?60+(h%3)*10:10+(h%4)*5);
-   x.hourly.precipitation.push(rainy?0.2+(h%4)*0.5:0);
-   x.hourly.weather_code.push(rainy?61:(h>=8&&h<=15?1:3));x.hourly.is_day.push(h>=6&&h<17?1:0);
-  }
- }
- return x;
-}
-function update(){if(demoMode()){try{render(demoData());put('last-update','デザイン確認用（仮データ）')}catch(e){put('last-update','デモ表示エラー')}return;}
- fetchWeather(function(err,data){if(err){put('last-update','通信エラー：再読み込みしてください');return}try{render(data)}catch(e){put('last-update','天気データを表示できません')}});
-}
-fit();clock();update();
-setInterval(clock,10000);setInterval(update,30*60*1000);
-if(window.addEventListener){window.addEventListener('resize',fit,false);window.addEventListener('focus',clock,false);window.addEventListener('pageshow',clock,false)}
-el('clock').onclick=function(){clock()};
+fit();tick();update();setInterval(tick,10000);setInterval(update,30*60*1000);
+if(window.addEventListener){window.addEventListener('resize',fit,false);window.addEventListener('pageshow',tick,false);window.addEventListener('focus',tick,false)}
 })();
 </script>
 </body>
